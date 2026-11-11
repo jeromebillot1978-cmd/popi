@@ -1,1307 +1,207 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Fred Rénovation — Spot 40s</title>
-<meta name="description" content="Fred Rénovation : travaux, rénovation et aménagement. Découvrez notre spot de 40 secondes et demandez votre devis gratuit.">
-<meta name="theme-color" content="#0a0710">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="https://popi-sigma.vercel.app/">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="fr_FR">
-<meta property="og:site_name" content="Fred Rénovation">
-<meta property="og:url" content="https://popi-sigma.vercel.app/">
-<meta property="og:title" content="Fred Rénovation — Spot 40s">
-<meta property="og:description" content="Travaux • Rénovation • Aménagement. Donnez une nouvelle vie à votre maison : demandez votre devis gratuit.">
-<meta name="twitter:card" content="summary">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ffb36b'/%3E%3Cstop offset='1' stop-color='%23a855f7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%230d0a14'/%3E%3Cpath d='M12 32 32 15l20 17v17H38V38H26v11H12z' fill='url(%23g)'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&display=swap"></noscript>
-<style>
-/* =========================================================
-   CHARTE — chaleureuse & futuriste
-   ========================================================= */
-@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
-:root{
-  /* couleurs d'origine conservées */
-  --warm:#f5c98a; --warm2:#e8a35c; --dark:#1a1410; --cream:#fdf6ec;
-  /* nouvelles couleurs */
-  --ink:#07060d; --night:#0d0a14;
-  --blue:#3d8bff; --violet:#a855f7; --orange:#ff8a3d; --gold:#f5c98a; --gold-deep:#d9a54e;
-  --text:#fdf6ec; --text2:rgba(253,246,236,.78); --text3:rgba(253,246,236,.58);
-  --glass:rgba(255,255,255,.065); --glass2:rgba(255,255,255,.11); --line:rgba(255,255,255,.16);
-  --g-brand:linear-gradient(110deg,#ffb36b 0%,#f5c98a 32%,#e7a3ff 66%,#7fb0ff 100%);
-  --g-warm:linear-gradient(120deg,#ff9a4d,#f5c98a 50%,#ffe2b8);
-  --f-title:'Sora',system-ui,sans-serif;
-  --f-body:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
-  --ease:cubic-bezier(.2,.8,.2,1);
-  --r:22px;
-  --shadow:0 20px 60px -20px rgba(0,0,0,.75),0 2px 0 rgba(255,255,255,.04) inset;
-  --px:0; --py:0;
-}
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-[hidden]{display:none!important}
-html,body{height:100%}
-body{background:var(--ink);color:var(--text);font-family:var(--f-body);overflow:hidden;-webkit-font-smoothing:antialiased;-webkit-tap-highlight-color:transparent}
-button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
-
-#stage{position:relative;width:100vw;height:100vh;height:100dvh;background:radial-gradient(120% 90% at 50% 0%,#191226 0%,#0b0812 55%,var(--ink) 100%);overflow:hidden;isolation:isolate}
-#stage.is-playing:not(.hud-show){cursor:none}
-
-/* =========================================================
-   FOND FUTURISTE : aurore + réseau de particules + sol lumineux
-   ========================================================= */
-.aurora{position:absolute;inset:-20%;z-index:0;pointer-events:none;transform:translate3d(calc(var(--px)*-18px),calc(var(--py)*-14px),0);transition:transform .6s var(--ease)}
-.aurora i{position:absolute;width:62vmax;height:62vmax;border-radius:50%;opacity:.55;will-change:transform}
-.aurora i:nth-child(1){left:-6%;top:-10%;background:radial-gradient(closest-side,rgba(61,139,255,.55),transparent);animation:drift1 22s ease-in-out infinite alternate}
-.aurora i:nth-child(2){right:-10%;top:5%;background:radial-gradient(closest-side,rgba(168,85,247,.5),transparent);animation:drift2 26s ease-in-out infinite alternate}
-.aurora i:nth-child(3){left:20%;bottom:-25%;background:radial-gradient(closest-side,rgba(255,138,61,.45),transparent);animation:drift3 20s ease-in-out infinite alternate}
-@keyframes drift1{to{transform:translate3d(12vw,8vh,0) scale(1.15)}}
-@keyframes drift2{to{transform:translate3d(-14vw,10vh,0) scale(.9)}}
-@keyframes drift3{to{transform:translate3d(8vw,-12vh,0) scale(1.1)}}
-#bg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
-.gridfloor{position:absolute;left:-50%;right:-50%;bottom:-12%;height:56%;z-index:1;pointer-events:none;
-  background-image:linear-gradient(rgba(245,201,138,.16) 1px,transparent 1px),linear-gradient(90deg,rgba(168,85,247,.14) 1px,transparent 1px);
-  background-size:64px 64px;transform:perspective(520px) rotateX(64deg);transform-origin:50% 100%;will-change:transform;
-  -webkit-mask-image:linear-gradient(to top,#000 0%,transparent 85%);mask-image:linear-gradient(to top,#000 0%,transparent 85%);
-  animation:floor 6s linear infinite;opacity:.55}
-@keyframes floor{to{transform:perspective(520px) rotateX(64deg) translateY(64px)}}
-.vignette{position:absolute;inset:0;z-index:4;pointer-events:none;background:radial-gradient(120% 100% at 50% 45%,transparent 55%,rgba(0,0,0,.55) 100%)}
-
-/* =========================================================
-   SCÈNES
-   ========================================================= */
-.scene{position:absolute;inset:0;z-index:2;opacity:0;visibility:hidden;transform:scale(1.035);transition:opacity .8s ease,transform 1.2s var(--ease),visibility 0s .8s;display:flex;align-items:center;justify-content:center;overflow:hidden;
-  padding:calc(env(safe-area-inset-top) + 76px) 16px calc(env(safe-area-inset-bottom) + 15vh)}
-.scene.active{opacity:1;visibility:visible;transform:none;transition:opacity .8s ease,transform 1.2s var(--ease),visibility 0s}
-#stage.is-idle .scene{opacity:0;visibility:hidden}
-.scene::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none}
-#s1::before{background:radial-gradient(70% 60% at 50% 55%,rgba(61,139,255,.16),transparent 70%)}
-#s2::before{background:radial-gradient(60% 60% at 50% 55%,rgba(255,138,61,.18),transparent 70%)}
-#s3::before{background:radial-gradient(70% 60% at 50% 50%,rgba(168,85,247,.16),transparent 70%)}
-#s4::before{background:radial-gradient(70% 60% at 50% 50%,rgba(245,201,138,.14),transparent 70%)}
-#s5::before{background:radial-gradient(70% 60% at 50% 45%,rgba(255,179,107,.18),transparent 70%)}
-#s6::before{background:radial-gradient(60% 55% at 50% 42%,rgba(245,201,138,.2),rgba(168,85,247,.08) 45%,transparent 75%)}
-.scene-inner{position:relative;width:min(100%,1120px);display:flex;flex-direction:column;align-items:center;gap:clamp(14px,2.6vh,28px);text-align:center}
-.px{transform:translate3d(calc(var(--px)*10px),calc(var(--py)*8px),0);transition:transform .6s var(--ease)}
-
-/* Apparition en cascade (rejouée à chaque activation de scène) */
-.rv{opacity:0;transform:translateY(26px) scale(.98);filter:blur(6px);transition:opacity .9s var(--ease),transform .9s var(--ease),filter .9s var(--ease)}
-.scene.active .rv{opacity:1;transform:none;filter:none;transition-delay:var(--d,0s)}
-
-.s-kicker{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font:600 12px/1 var(--f-title);letter-spacing:2px;text-transform:uppercase;color:var(--gold);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.s-kicker::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);box-shadow:0 0 12px var(--orange)}
-.s-title{font:800 clamp(28px,5.2vmin,66px)/1.06 var(--f-title);letter-spacing:-.02em;max-width:18ch;
-  background:linear-gradient(180deg,#fff 0%,#ffe9c9 55%,#f5c98a 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 28px rgba(245,201,138,.28))}
-.scene.active .s-title.rv{filter:drop-shadow(0 0 28px rgba(245,201,138,.28))}
-.s-title em{font-style:normal;background:var(--g-brand);-webkit-background-clip:text;background-clip:text;color:transparent}
-
-/* ---------- Scène 1 : le plan de la maison se dessine puis s'illumine ---------- */
-.house{position:relative;width:min(86vw,680px,70vh);margin-top:1vh}
-.house svg{display:block;width:100%;height:auto;overflow:visible}
-.bp .draw{fill:none;stroke:url(#bpStroke);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1}
-.bp .thin{stroke-width:1.2;opacity:.6}
-#s1.active .bp .draw{animation:draw 2.2s var(--ease) forwards;animation-delay:var(--d,0s)}
-@keyframes draw{to{stroke-dashoffset:0}}
-.bp .fill{opacity:0}
-#s1.active .bp .fill{animation:fadeIn 1.2s ease forwards;animation-delay:var(--d,2.4s)}
-.bp .lit{opacity:0;filter:url(#glow)}
-#s1.active .bp .lit{animation:fadeIn .6s ease forwards;animation-delay:var(--d,3s)}
-.bp .label{font:600 12px var(--f-title);letter-spacing:3px;fill:rgba(127,176,255,.85)}
-@keyframes fadeIn{to{opacity:1}}
-.scan{position:absolute;left:-4%;right:-4%;top:0;height:2px;background:linear-gradient(90deg,transparent,rgba(127,176,255,.9),transparent);box-shadow:0 0 18px rgba(127,176,255,.9);opacity:0}
-#s1.active .scan{animation:scan 2.6s .2s ease-in-out forwards}
-@keyframes scan{0%{opacity:0;transform:translateY(0)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translateY(min(56vw,440px,46vh))}}
-.dust{position:absolute;width:3px;height:3px;background:var(--warm);border-radius:50%;opacity:0;box-shadow:0 0 8px var(--warm);animation:dust 6s infinite}
-@keyframes dust{0%{opacity:0;transform:translateY(0)}20%{opacity:.8}100%{opacity:0;transform:translateY(-80px)}}
-
-/* ---------- Scène 2 : savoir-faire ---------- */
-.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,2vw,24px);width:min(100%,980px)}
-.glass{position:relative;background:linear-gradient(160deg,rgba(255,255,255,.12),rgba(255,255,255,.035));border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);-webkit-backdrop-filter:blur(14px) saturate(140%);backdrop-filter:blur(14px) saturate(140%);overflow:hidden}
-.glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.22) 48%,transparent 62%);transform:translateX(-120%)}
-.scene.active .glass::after{animation:sheen 1.6s var(--ease) forwards;animation-delay:calc(var(--d,0s) + .5s)}
-@keyframes sheen{to{transform:translateX(120%)}}
-.skill{padding:clamp(18px,3vh,30px) clamp(14px,2vw,24px);display:flex;flex-direction:column;align-items:center;gap:12px}
-.skill h3{font:700 clamp(17px,2.2vmin,24px)/1.2 var(--f-title);color:var(--cream)}
-.skill p{font-size:clamp(13px,1.6vmin,16px);color:var(--text2);line-height:1.5}
-.icon{position:relative;display:grid;place-items:center;width:clamp(58px,9vmin,92px);aspect-ratio:1;border-radius:50%;
-  background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.35),rgba(255,255,255,.06) 60%);border:1px solid rgba(255,255,255,.25);
-  box-shadow:0 0 0 6px rgba(255,255,255,.03),0 0 34px rgba(255,138,61,.35)}
-.icon svg{width:46%;height:46%;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(255,201,138,.8))}
-.scene.active .skill .icon{animation:float 3.2s ease-in-out infinite alternate;animation-delay:var(--d,0s)}
-@keyframes float{to{transform:translateY(-8px)}}
-.skill:nth-child(2) .icon{box-shadow:0 0 0 6px rgba(255,255,255,.03),0 0 34px rgba(168,85,247,.45)}
-.skill:nth-child(3) .icon{box-shadow:0 0 0 6px rgba(255,255,255,.03),0 0 34px rgba(61,139,255,.45)}
-.sparks{position:absolute;inset:0;pointer-events:none}
-.sparks i{position:absolute;left:50%;top:58%;width:3px;height:3px;border-radius:50%;background:#ffd59a;box-shadow:0 0 10px #ff9a4d;opacity:0}
-#s2.active .sparks i{animation:spark-burst 1.4s ease-out infinite;animation-delay:var(--d)}
-@keyframes spark-burst{0%{opacity:0;transform:translate(0,0)}15%{opacity:1}100%{opacity:0;transform:translate(var(--x),var(--y))}}
-
-/* ---------- Scène 3 : galerie des rénovations ---------- */
-.gallery{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(10px,1.6vw,18px);width:min(100%,980px);perspective:1200px}
-.card{grid-column:span 2;aspect-ratio:4/3;border-radius:18px;position:relative;overflow:hidden;opacity:0;
-  transform:rotateX(26deg) translateY(40px) scale(.9);transform-origin:50% 100%;
-  transition:all .7s cubic-bezier(.2,.8,.2,1);border:1px solid rgba(255,255,255,.3);
-  box-shadow:0 24px 50px -18px rgba(0,0,0,.8),0 0 0 1px rgba(255,255,255,.05) inset;display:grid;place-items:center}
-.card:nth-child(4){grid-column:2 / span 2}
-.card:nth-child(5){grid-column:4 / span 2}
-.card.show{opacity:1;transform:none}
-.card.bath{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.6),transparent 55%),linear-gradient(160deg,#cfe3e8,#5f9fb3)}
-.card.kitchen{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.55),transparent 55%),linear-gradient(160deg,#f0dcbc,#b8794a)}
-.card.floor{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.5),transparent 55%),linear-gradient(160deg,#dcb88a,#8f5f36)}
-.card.paint{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.55),transparent 55%),linear-gradient(160deg,#ffd2b0,#e0708a 60%,#8f5bd6)}
-.card.insul{background:radial-gradient(circle at 30% 20%,rgba(255,255,255,.55),transparent 55%),linear-gradient(160deg,#dfe8e0,#6aa38a)}
-.card::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.55) 47%,transparent 60%);transform:translateX(-130%);pointer-events:none}
-.card.show::before{animation:sheen 1.3s .45s var(--ease) forwards}
-.card::after{content:attr(data-label);position:absolute;bottom:10px;left:10px;padding:6px 12px;border-radius:999px;background:rgba(13,10,20,.55);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);color:#fff;font:600 clamp(12px,1.4vmin,14px)/1 var(--f-title);letter-spacing:.4px}
-.card .icon{width:clamp(48px,8vmin,76px);background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.75),rgba(255,255,255,.2) 65%);border-color:rgba(255,255,255,.6);box-shadow:0 10px 30px -6px rgba(0,0,0,.35)}
-.card .icon svg{stroke:#2a1d12;filter:none}
-.card .holo{position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;opacity:.45;background:linear-gradient(135deg,rgba(61,139,255,.6),rgba(168,85,247,.5),rgba(255,138,61,.5),rgba(245,201,138,.6));background-size:300% 300%;animation:holo 8s ease-in-out infinite alternate}
-@keyframes holo{to{background-position:100% 100%}}
-
-/* ---------- Scène 4 : avant / après ---------- */
-.ba{position:relative;width:min(100%,860px);height:min(46vh,440px);border-radius:24px;overflow:hidden;box-shadow:0 30px 80px -20px rgba(0,0,0,.85),0 0 60px -10px rgba(245,201,138,.25);border:1px solid rgba(255,255,255,.18)}
-.ba-layer{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;padding-bottom:18px;font:800 clamp(18px,2.6vw,30px)/1 var(--f-title);letter-spacing:6px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.7)}
-.ba-layer svg{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
-.ba-layer{z-index:0;isolation:isolate}
-.before{clip-path:inset(0 0 0 0)}
-.after{clip-path:inset(0 100% 0 0);transition:clip-path 2.5s ease-in-out}
-.ba.play .after{clip-path:inset(0 0 0 0)}
-.ba-word{padding:10px 20px;border-radius:999px;background:rgba(13,10,20,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25)}
-.after .ba-word{background:rgba(255,255,255,.22);color:#2a1d12;text-shadow:none;border-color:rgba(255,255,255,.6)}
-.ba-split{position:absolute;inset:0;z-index:3;pointer-events:none;transform:translateX(-100%);opacity:1}
-.ba-split::after{content:"";position:absolute;right:-1px;top:0;bottom:0;width:3px;background:linear-gradient(180deg,#7fb0ff,#fff 50%,#f5c98a);box-shadow:0 0 22px 4px rgba(245,201,138,.75)}
-.ba-split::before{content:"⇆";position:absolute;right:-22px;top:50%;width:44px;height:44px;margin-top:-22px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.92);color:#2a1d12;font:800 18px/1 var(--f-title);box-shadow:0 0 30px rgba(245,201,138,.9)}
-.ba.play .ba-split{transform:none;opacity:0;transition:transform 2.5s ease-in-out,opacity .5s 2.7s}
-.ba-label{position:absolute;top:14px;z-index:4;padding:6px 14px;border-radius:20px;background:rgba(13,10,20,.6);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);color:#fff;font:600 13px/1.2 var(--f-title);letter-spacing:1px}
-.ba-label.l{left:14px}.ba-label.r{right:14px}
-.badges{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
-.badge{display:inline-flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:999px;font:600 clamp(13px,1.6vmin,15px)/1.2 var(--f-title);color:var(--cream)}
-.badge .ic{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--g-warm);box-shadow:0 0 18px rgba(255,138,61,.55)}
-.badge .ic svg{width:16px;height:16px;fill:none;stroke:#2a1d12;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
-
-/* ---------- Scène 5 : confiance ---------- */
-.constellation{position:absolute;inset:0;width:100%;height:100%;opacity:.55;pointer-events:none}
-.constellation line{stroke:url(#cnLine);stroke-width:1;opacity:0}
-.constellation circle{fill:#ffd59a;opacity:0;transform-box:fill-box;transform-origin:center}
-#s5.active .constellation line{animation:fadeIn 1s ease forwards;animation-delay:var(--d)}
-#s5.active .constellation circle{animation:node 2.4s ease-in-out infinite;animation-delay:var(--d)}
-@keyframes node{0%{opacity:0;transform:scale(.4)}30%{opacity:1;transform:scale(1.3)}100%{opacity:.7;transform:scale(1)}}
-.stats{display:grid;grid-template-columns:repeat(var(--n,3),minmax(0,1fr));gap:clamp(10px,1.8vw,20px);width:min(100%,900px)}
-.stat{padding:clamp(16px,2.6vh,28px) 14px}
-.stat-num{font:800 clamp(34px,7vmin,76px)/1 var(--f-title);letter-spacing:-.03em;background:var(--g-brand);-webkit-background-clip:text;background-clip:text;color:transparent;font-variant-numeric:tabular-nums}
-.stat-label{margin-top:8px;font-size:clamp(13px,1.7vmin,16px);color:var(--text2);line-height:1.35}
-.testis{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;width:min(100%,980px)}
-.testi{padding:18px 20px;text-align:left}
-.testi blockquote{font-size:clamp(14px,1.7vmin,17px);line-height:1.5;color:var(--cream)}
-.testi blockquote::before{content:"“";display:block;font:800 40px/0.7 var(--f-title);color:var(--orange);margin-bottom:6px}
-.testi figcaption{margin-top:10px;font:600 13px var(--f-title);color:var(--gold)}
-.trust-line{font-size:clamp(14px,1.9vmin,18px);color:var(--text2)}
-
-/* ---------- Scène 6 : logo + appel à l'action ---------- */
-.logo{text-align:center;opacity:0;transform:scale(.85);transition:all 1s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;align-items:center;gap:clamp(10px,2vh,18px)}
-.logo.show{opacity:1;transform:scale(1)}
-.logo > *{opacity:0;transform:translateY(16px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
-.logo.show > *{opacity:1;transform:none}
-.logo.show > :nth-child(2){transition-delay:.15s}.logo.show > :nth-child(3){transition-delay:.3s}
-.logo.show > :nth-child(4){transition-delay:.45s}.logo.show > :nth-child(5){transition-delay:.6s}.logo.show > :nth-child(6){transition-delay:.7s}
-.emblem{position:relative;width:clamp(78px,13vmin,124px);aspect-ratio:1;display:grid;place-items:center;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.28),rgba(255,255,255,.04) 65%);box-shadow:0 0 60px rgba(245,201,138,.45)}
-.emblem::before{content:"";position:absolute;inset:-3px;border-radius:50%;padding:2px;background:conic-gradient(from var(--ang),#3d8bff,#a855f7,#ff8a3d,#f5c98a,#3d8bff);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:spin 4s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.emblem svg{width:52%;height:52%;fill:none;stroke:#fff;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 8px rgba(245,201,138,.9))}
-@keyframes spin-ang{to{--ang:360deg}}
-.brand{font:800 clamp(34px,7.4vmin,92px)/1 var(--f-title);letter-spacing:.06em;
-  background:linear-gradient(100deg,#f5c98a 0%,#fff3de 22%,#f5c98a 40%,#ffb36b 60%,#f5c98a 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
-  filter:drop-shadow(0 0 30px rgba(245,201,138,.45));animation:shine 4s linear infinite}
-@keyframes shine{to{background-position:-250% 0}}
-.logo .tag{color:var(--cream);font:400 clamp(14px,2vmin,22px)/1.3 var(--f-title);letter-spacing:3px}
-.logo .cta{position:relative;display:inline-flex;align-items:center;gap:10px;padding:16px 30px;border-radius:999px;color:#1f140a;font:700 clamp(15px,2vmin,21px)/1 var(--f-title);letter-spacing:.3px;background:var(--g-warm);box-shadow:0 14px 40px -10px rgba(255,138,61,.8),0 0 0 1px rgba(255,255,255,.4) inset;isolation:isolate}
-.logo .cta::before{content:"";position:absolute;inset:-4px;border-radius:inherit;z-index:-1;background:conic-gradient(from var(--ang),#3d8bff,#a855f7,#ff8a3d,#f5c98a,#3d8bff);filter:blur(12px);opacity:.85;animation:halo-pulse 1.6s ease-in-out infinite alternate}
-.logo.show .cta{animation:pulse-cta 1.6s 1s ease-in-out infinite}
-@keyframes pulse-cta{50%{transform:scale(1.045)}}
-.logo .site{color:rgba(253,246,236,.75);font:600 clamp(13px,1.6vmin,16px)/1 var(--f-title);letter-spacing:1px}
-.logo .phone{color:var(--gold);font:700 clamp(16px,2.2vmin,22px)/1 var(--f-title);letter-spacing:1px}
-.spark{position:absolute;width:4px;height:4px;background:var(--warm);border-radius:50%;opacity:0;box-shadow:0 0 12px var(--warm);animation:spark 3s infinite}
-@keyframes spark{0%,100%{opacity:0;transform:scale(0)}50%{opacity:1;transform:scale(1)}}
-
-/* =========================================================
-   ÉCRAN D'ACCUEIL (hero)
-   ========================================================= */
-#intro{position:absolute;inset:0;z-index:50;display:flex;padding:calc(env(safe-area-inset-top) + 24px) 16px calc(env(safe-area-inset-bottom) + 24px);opacity:0;visibility:hidden;transition:opacity .7s ease,visibility 0s .7s;overflow-y:auto}
-#stage.is-idle #intro{opacity:1;visibility:visible;transition:opacity .7s ease,visibility 0s}
-.intro-grid{margin:auto;width:min(100%,1180px);display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:clamp(16px,4vw,56px)}
-.intro-copy{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(14px,2.4vh,22px)}
-.in{animation:rise 1s var(--ease) both;animation-delay:var(--d,0s)}
-@keyframes rise{from{opacity:.01;transform:translateY(30px)}to{opacity:1;transform:none}}
-.chip{display:inline-flex;align-items:center;gap:10px;padding:8px 14px;border-radius:999px;background:var(--glass);border:1px solid var(--line);font:600 12px/1 var(--f-title);letter-spacing:1.6px;text-transform:uppercase;color:var(--text2);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.chip .dot{width:8px;height:8px;border-radius:50%;background:#3ddc84;box-shadow:0 0 10px #3ddc84;animation:blink 1.6s infinite}
-.hero-title{font:800 clamp(44px,8.2vw,108px)/.95 var(--f-title);letter-spacing:-.035em;color:#fff;text-shadow:0 0 50px rgba(245,201,138,.25)}
-.hero-title span{display:block;background:linear-gradient(100deg,#ffb36b 0%,#f5c98a 25%,#fff4e0 40%,#e7a3ff 60%,#7fb0ff 80%,#ffb36b 100%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 8s linear infinite}
-.lead{font:600 clamp(19px,2.3vw,28px)/1.3 var(--f-title);color:var(--cream);max-width:24ch}
-.sub{font-size:clamp(15px,1.4vw,17px);line-height:1.6;color:var(--text2);max-width:52ch}
-.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:4px}
-.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:0 26px;border-radius:999px;border:0;cursor:pointer;font:700 16px/1 var(--f-title);letter-spacing:.2px;isolation:isolate;transition:transform .25s var(--ease),box-shadow .25s,background .25s,opacity .25s;-webkit-user-select:none;user-select:none}
-.btn svg{width:18px;height:18px;flex:none}
-.btn-primary{color:#1f140a;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.65) 50%,transparent 60%) -150% 0/250% 100% no-repeat,var(--g-warm);transition:transform .25s var(--ease),box-shadow .25s,background-position .8s var(--ease);box-shadow:0 14px 34px -10px rgba(255,138,61,.75),0 0 0 1px rgba(255,255,255,.45) inset}
-.btn-primary::before{content:"";position:absolute;inset:-3px;border-radius:inherit;z-index:-1;background:conic-gradient(from var(--ang),#3d8bff,#a855f7,#ff8a3d,#f5c98a,#3d8bff);filter:blur(12px);opacity:.7;animation:halo-pulse 3s ease-in-out infinite alternate;transition:opacity .3s}
-@keyframes halo-pulse{from{opacity:.45}to{opacity:.9}}
-.btn-primary:hover{background-position:250% 0,0 0}
-.btn-primary:hover::before{opacity:1}
-.btn-ghost{color:var(--cream);background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.btn-ghost:hover{background:rgba(255,255,255,.13);border-color:rgba(245,201,138,.55)}
-.btn-ghost svg{color:#ff5a5a}
-.btn:hover{transform:translateY(-2px)}
-.btn:active{transform:translateY(0) scale(.97)}
-.btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}
-.features{list-style:none;display:flex;flex-wrap:wrap;gap:8px}
-.features li{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.1);font-size:13px;color:var(--text2)}
-.features svg{width:15px;height:15px;fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.note{font-size:13px;color:var(--text3);line-height:1.5}
-.note kbd{display:inline-block;min-width:22px;padding:2px 7px;border-radius:6px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.06);font:600 12px/1.4 var(--f-title);color:var(--cream)}
-@media (hover:none){.kbd-hint{display:none}}
-
-/* Illustration 3D */
-.intro-visual{position:relative;aspect-ratio:1;width:100%;max-width:560px;justify-self:center;perspective:1000px}
-.iso-wrap{position:absolute;inset:0;transform-style:preserve-3d;transform:rotateX(calc(var(--py)*-7deg)) rotateY(calc(var(--px)*9deg));transition:transform .6s var(--ease)}
-.iso{position:absolute;inset:6%;will-change:transform;animation:hover-y 5s ease-in-out infinite alternate}
-.iso svg{width:100%;height:100%;overflow:visible}
-@keyframes hover-y{to{transform:translateY(-14px)}}
-.ring{position:absolute;left:50%;top:66%;will-change:transform;border-radius:50%;transform:translate(-50%,-50%) rotateX(74deg);border:1px solid transparent}
-.ring.r1{width:88%;aspect-ratio:1;background:conic-gradient(transparent 0 20%,rgba(245,201,138,.9) 30%,transparent 42% 70%,rgba(168,85,247,.9) 80%,transparent 92%) border-box;-webkit-mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0) border-box;mask:linear-gradient(#000 0 0) padding-box exclude,linear-gradient(#000 0 0) border-box;border-width:2px;animation:spinz 7s linear infinite}
-.ring.r2{width:104%;aspect-ratio:1;border:1px dashed rgba(127,176,255,.35);animation:spinz 40s linear infinite}
-@keyframes spinz{to{transform:translate(-50%,-50%) rotateX(74deg) rotateZ(360deg)}}
-.halo{position:absolute;left:50%;top:62%;width:80%;aspect-ratio:2/1;transform:translate(-50%,-50%);border-radius:50%;background:radial-gradient(closest-side,rgba(255,138,61,.55),rgba(168,85,247,.25) 55%,transparent);filter:blur(6px);will-change:transform,opacity;animation:breathe 4s ease-in-out infinite alternate}
-@keyframes breathe{to{opacity:.6;transform:translate(-50%,-50%) scale(1.08)}}
-.beam{position:absolute;inset:0;z-index:60;pointer-events:none;background:linear-gradient(105deg,transparent 40%,rgba(255,236,205,.16) 50%,transparent 60%);transform:translateX(-100%)}
-#stage.is-idle .beam{animation:beam 2.2s .25s var(--ease) both}
-@keyframes beam{to{transform:translateX(100%)}}
-
-/* =========================================================
-   HUD, sous-titres, progression
-   ========================================================= */
-#caption{position:absolute;bottom:calc(env(safe-area-inset-bottom) + 6vh);left:50%;transform:translateX(-50%) translateY(10px);z-index:6;width:max-content;max-width:min(92vw,980px);padding:12px 22px;border-radius:18px;
-  background:rgba(13,10,20,.55);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.14);
-  color:#fff;font:600 clamp(15px,2.1vmin,24px)/1.4 var(--f-title);letter-spacing:.2px;text-align:center;text-shadow:0 2px 12px rgba(0,0,0,.6);opacity:0;transition:opacity .5s,transform .5s var(--ease)}
-#caption.show{opacity:1;transform:translateX(-50%)}
-#hud{position:absolute;top:calc(env(safe-area-inset-top) + 14px);right:14px;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px;z-index:100;transition:opacity .4s}
-#stage.is-idle #hud{opacity:0;pointer-events:none}
-#stage.is-playing:not(.hud-show) #hud:not(:focus-within){opacity:0;pointer-events:none}
-#hud button{min-height:44px;padding:0 18px;border-radius:999px;background:rgba(13,10,20,.55);color:var(--cream);font:600 14px/1 var(--f-title);cursor:pointer;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(245,201,138,.35);transition:background .2s,border-color .2s,transform .2s}
-#hud button:hover{background:rgba(245,201,138,.18);border-color:rgba(245,201,138,.7)}
-#hud button:active{transform:scale(.96)}
-#hud button:disabled{opacity:.4;cursor:not-allowed}
-#hud #play{background:var(--g-warm);color:#1f140a;border-color:transparent;box-shadow:0 8px 24px -8px rgba(255,138,61,.8)}
-#hud .ico{width:44px;padding:0}
-#hud .short{display:none}
-#hud #cc[aria-pressed="false"]{opacity:.55;text-decoration:line-through}
-#progress{position:absolute;bottom:0;left:0;height:4px;width:0%;z-index:100;background:linear-gradient(90deg,var(--orange),var(--gold),var(--violet),var(--blue));box-shadow:0 0 14px rgba(245,201,138,.9)}
-#rec-dot{position:absolute;top:calc(env(safe-area-inset-top) + 28px);left:18px;width:14px;height:14px;background:#e74c3c;border-radius:50%;opacity:0;z-index:100;box-shadow:0 0 14px #e74c3c;animation:blink 1s infinite}
-@keyframes blink{50%{opacity:.2}}
-#rec-dot.on{opacity:1}
-/* Enregistrement propre : rien d'autre que le spot dans la vidéo */
-#stage.rec-clean #hud,#stage.rec-clean #progress,#stage.rec-clean #rec-dot,#stage.rec-clean #toast{display:none}
-#toast{position:absolute;left:50%;top:calc(env(safe-area-inset-top) + 16px);z-index:120;transform:translate(-50%,-20px);max-width:min(92vw,560px);padding:12px 18px;border-radius:14px;background:rgba(20,15,30,.92);border:1px solid rgba(245,201,138,.4);color:var(--cream);font-size:14px;line-height:1.45;text-align:center;opacity:0;pointer-events:none;transition:opacity .35s,transform .35s var(--ease)}
-#toast.show{opacity:1;transform:translate(-50%,0)}
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-@media (max-width:900px),(orientation:portrait){
-  .intro-grid{grid-template-columns:1fr;text-align:center;gap:6px}
-  .intro-copy{align-items:center}
-  .intro-visual{order:-1;max-width:min(68vw,40vh,420px)}
-  .lead,.sub{margin-inline:auto}
-  .actions,.features{justify-content:center}
-}
-@media (orientation:portrait) and (max-width:700px){
-  .trio{grid-template-columns:1fr;gap:10px;width:min(100%,420px)}
-  .skill{flex-direction:row;text-align:left;padding:14px 16px;gap:14px}
-  .skill .icon{flex:none}
-  .gallery{grid-template-columns:repeat(4,minmax(0,1fr));width:min(100%,440px)}
-  .card,.card:nth-child(4){grid-column:span 2}
-  .card:nth-child(5){grid-column:2 / span 2}
-  .ba{height:min(42vh,420px)}
-  .stats{grid-template-columns:1fr;width:min(100%,380px);gap:10px}
-  .stat{display:flex;align-items:center;gap:16px;text-align:left;padding:14px 18px}
-  .stat-label{margin-top:0}
-  .badges{flex-direction:column;align-items:stretch;width:min(100%,380px)}
-  #hud{left:10px;right:10px;justify-content:center;flex-wrap:nowrap;gap:6px}
-  #hud button{padding:0 12px;font-size:13px;white-space:nowrap}
-  #hud .ico{width:40px}
-  #hud .long{display:none}
-  #hud .short{display:inline}
-  .intro-visual{max-width:min(56vw,30vh,360px)}
-  .btn{width:100%}
-  .actions{width:min(100%,380px);flex-direction:column}
-}
-@media (max-height:520px) and (orientation:landscape){
-  .intro-visual{display:none}
-  .intro-grid{grid-template-columns:1fr;text-align:center}
-  .intro-copy{align-items:center}
-  .hero-title{font-size:clamp(34px,7vw,64px)}
-  .features,.kbd-hint{display:none}
-  .scene{padding-top:64px;padding-bottom:18vh}
-  .s-title{font-size:clamp(22px,5vmin,40px)}
-  .ba{height:52vh}
-  .trio .skill p{display:none}
-}
-/* Grands écrans : tout est agrandi proportionnellement */
-@media (min-width:1800px) and (min-height:950px){.scene-inner,.logo,.intro-grid,#hud,#caption,#toast{zoom:1.3}}
-@media (min-width:2200px) and (min-height:1200px){.scene-inner,.logo,.intro-grid,#hud,#caption,#toast{zoom:1.55}}
-@media (min-width:3000px) and (min-height:1600px){.scene-inner,.logo,.intro-grid,#hud,#caption,#toast{zoom:2}}
-@media (orientation:portrait) and (max-height:760px){
-  .features{display:none}
-  .sub{font-size:14px}
-}
-@media (prefers-reduced-motion:reduce){
-  .aurora i,.gridfloor,.halo,.iso,.ring,.brand,.hero-title span,.chip .dot,.card .holo,.dust,.spark,.sparks i{animation:none!important}
-  .rv{filter:none;transform:none}
-  .aurora,.px,.iso-wrap{transform:none!important}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Chatastrophe Studio — Vidéos de chats drôles et virales</title>
+  <meta name="description" content="Crée en un clic des vidéos humoristiques de chats pour TikTok, YouTube Shorts et Instagram Reels : scénario absurde, voix de chat, sous-titres mot par mot, mèmes et score de viralité." />
+  <meta name="theme-color" content="#1A1020" />
+  <meta property="og:title" content="Chatastrophe Studio 🐱🎬" />
+  <meta property="og:description" content="Le générateur de vidéos de chats absurdes et virales." />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preload" href="fonts/luckiest-guy.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="fonts/fredoka-600.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-<main id="stage" class="is-idle">
-  <!-- FOND -->
-  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
-  <canvas id="bg" aria-hidden="true"></canvas>
-  <div class="gridfloor" aria-hidden="true"></div>
+  <div class="paws" aria-hidden="true"></div>
 
-  <!-- Définitions SVG partagées -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <defs>
-      <linearGradient id="bpStroke" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fb0ff"/><stop offset=".55" stop-color="#c79bff"/><stop offset="1" stop-color="#f5c98a"/></linearGradient>
-      <linearGradient id="cnLine" x1="0" x2="1"><stop offset="0" stop-color="#f5c98a"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
-      <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    </defs>
-  </svg>
-
-  <!-- SCÈNE 1 : le projet prend vie -->
-  <section class="scene active" id="s1" aria-label="Scène 1 : votre projet">
-    <div class="scene-inner">
-      <p class="s-kicker rv" style="--d:.1s">Votre projet de rénovation</p>
-      <h2 class="s-title rv" style="--d:.25s">Votre maison mérite <em>le meilleur.</em></h2>
-      <div class="house px">
-        <svg class="bp" viewBox="0 0 600 380" role="img" aria-label="Plan d'une maison qui s'illumine">
-          <defs>
-            <linearGradient id="wallLit" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe6c2" stop-opacity=".22"/><stop offset="1" stop-color="#ff8a3d" stop-opacity=".1"/></linearGradient>
-            <linearGradient id="roofLit" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fb0ff" stop-opacity=".22"/><stop offset="1" stop-color="#a855f7" stop-opacity=".16"/></linearGradient>
-          </defs>
-          <path class="fill" d="M130 340V170h340v170z" fill="url(#wallLit)" style="--d:2.3s"/>
-          <path class="fill" d="M100 182 300 60l200 122z" fill="url(#roofLit)" style="--d:2.4s"/>
-          <path class="draw" pathLength="1" d="M20 340H580" style="--d:0s"/>
-          <path class="draw" pathLength="1" d="M130 340V170H470V340" style="--d:.2s"/>
-          <path class="draw" pathLength="1" d="M100 182 300 60 500 182" style="--d:.45s"/>
-          <path class="draw" pathLength="1" d="M392 118V78h34v62" style="--d:.7s"/>
-          <path class="draw" pathLength="1" d="M165 205h80v70h-80zM205 205v70M165 240h80" style="--d:.9s"/>
-          <path class="draw" pathLength="1" d="M355 205h80v70h-80zM395 205v70M355 240h80" style="--d:1.05s"/>
-          <path class="draw" pathLength="1" d="M270 340v-88q30-26 60 0v88" style="--d:1.2s"/>
-          <path class="draw thin" pathLength="1" d="M130 362H470M130 355v14M470 355v14M492 170V340M485 170h14M485 340h14" style="--d:1.4s"/>
-          <rect class="lit" x="166" y="206" width="78" height="68" fill="#ffd27a" opacity=".85" style="--d:3s"/>
-          <rect class="lit" x="356" y="206" width="78" height="68" fill="#ffd27a" opacity=".85" style="--d:3.25s"/>
-          <path class="lit" d="M271 339v-86q29-25 58 0v86z" fill="#ff9a4d" opacity=".55" style="--d:3.45s"/>
-          <text class="label fill" x="300" y="30" text-anchor="middle" style="--d:1.8s">PLAN · RÉNOVATION</text>
-        </svg>
-        <div class="scan" aria-hidden="true"></div>
-        <div class="dust" style="left:20%;top:60%;animation-delay:.3s"></div>
-        <div class="dust" style="left:45%;top:40%;animation-delay:1.2s"></div>
-        <div class="dust" style="left:70%;top:55%;animation-delay:2s"></div>
-        <div class="dust" style="left:35%;top:70%;animation-delay:3s"></div>
-        <div class="dust" style="left:60%;top:30%;animation-delay:4s"></div>
+  <header class="top">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"><span class="ear l"></span><span class="ear r"></span>🎬</div>
+      <div>
+        <h1>Chatastrophe <span>Studio</span></h1>
+        <p>Des vidéos de chats absurdes, prêtes à devenir virales.</p>
       </div>
     </div>
-  </section>
-
-  <!-- SCÈNE 2 : savoir-faire -->
-  <section class="scene" id="s2" aria-label="Scène 2 : savoir-faire">
-    <div class="sparks" aria-hidden="true">
-      <i style="--x:-140px;--y:-120px;--d:0s"></i><i style="--x:120px;--y:-150px;--d:.3s"></i><i style="--x:-90px;--y:-170px;--d:.6s"></i>
-      <i style="--x:160px;--y:-90px;--d:.9s"></i><i style="--x:40px;--y:-190px;--d:.45s"></i><i style="--x:-180px;--y:-60px;--d:1.1s"></i>
+    <div class="top-right">
+      <span id="engineBadge" class="pill" title="Moteur de scénario">🧠 Local</span>
+      <span id="bestBadge" class="pill gold" title="Ton meilleur score de viralité">🏆 —</span>
     </div>
-    <div class="scene-inner">
-      <p class="s-kicker rv" style="--d:.1s">Notre métier</p>
-      <h2 class="s-title rv" style="--d:.25s">Professionnalisme <em>&amp; savoir-faire</em></h2>
-      <div class="trio px">
-        <article class="glass skill rv" style="--d:.5s">
-          <span class="icon"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="13" height="5" rx="1.5"/><path d="M17 5.5h3M10.5 8v12.5"/></svg></span>
-          <div><h3>Travaux</h3><p>Des chantiers menés avec rigueur, du gros œuvre aux finitions.</p></div>
-        </article>
-        <article class="glass skill rv" style="--d:.75s">
-          <span class="icon"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></span>
-          <div><h3>Rénovation</h3><p>Votre habitat transformé, pièce par pièce, sans mauvaise surprise.</p></div>
-        </article>
-        <article class="glass skill rv" style="--d:1s">
-          <span class="icon"><svg viewBox="0 0 24 24"><path d="M4 11V8a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v3"/><path d="M2 13a2 2 0 0 1 4 0v2h12v-2a2 2 0 0 1 4 0v5H2z"/><path d="M5 18v2M19 18v2"/></svg></span>
-          <div><h3>Aménagement</h3><p>Des espaces repensés pour votre confort au quotidien.</p></div>
-        </article>
-      </div>
-    </div>
-  </section>
+  </header>
 
-  <!-- SCÈNE 3 : galerie rénovations -->
-  <section class="scene" id="s3" aria-label="Scène 3 : nos domaines">
-    <div class="scene-inner">
-      <p class="s-kicker rv" style="--d:.1s">Nos domaines</p>
-      <h2 class="s-title rv" style="--d:.2s">Chaque détail <em>compte</em></h2>
-      <div class="gallery px">
-        <div class="card bath" data-label="Salle de bain"><span class="holo"></span><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 12h18v2a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/><path d="M6 12V6a2 2 0 0 1 4 0"/><path d="M7 19l-1 2M17 19l1 2"/></svg></span></div>
-        <div class="card kitchen" data-label="Cuisine"><span class="holo"></span><span class="icon"><svg viewBox="0 0 24 24"><path d="M4 10h16v6a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z"/><path d="M2 10h2M20 10h2"/><path d="M9 7c0-1 1-1 1-2.5M14 7c0-1 1-1 1-2.5"/></svg></span></div>
-        <div class="card floor" data-label="Sols neufs"><span class="holo"></span><span class="icon"><svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4z"/><path d="M3 12l9 4 9-4"/><path d="M3 17l9 4 9-4"/></svg></span></div>
-        <div class="card paint" data-label="Peinture"><span class="holo"></span><span class="icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="15" height="6" rx="1.5"/><path d="M18 6h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-8v3"/><rect x="10.5" y="14" width="3" height="7" rx="1"/></svg></span></div>
-        <div class="card insul" data-label="Isolation"><span class="holo"></span><span class="icon"><svg viewBox="0 0 24 24"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/><path d="M12 9v7"/></svg></span></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCÈNE 4 : avant / après -->
-  <section class="scene" id="s4" aria-label="Scène 4 : avant, après">
-    <div class="scene-inner">
-      <div class="ba rv" id="ba" style="--d:0s">
-        <div class="ba-layer before">
-          <svg viewBox="0 0 800 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <defs><linearGradient id="oldWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a4036"/><stop offset="1" stop-color="#2b2620"/></linearGradient></defs>
-            <rect width="800" height="290" fill="url(#oldWall)"/>
-            <ellipse cx="160" cy="120" rx="90" ry="50" fill="#2a231c" opacity=".55"/>
-            <ellipse cx="600" cy="240" rx="120" ry="40" fill="#2a231c" opacity=".5"/>
-            <path d="M330 0l-14 40 18 30-22 46 12 40" stroke="#1d1813" stroke-width="3" fill="none"/>
-            <path d="M720 60l-20 30 10 26-16 34" stroke="#1d1813" stroke-width="2.5" fill="none"/>
-            <path d="M80 200q30-20 60 6t50 30q-30 30-80 10z" fill="#5a4d3f" opacity=".7"/>
-            <rect x="470" y="60" width="180" height="150" fill="#1b1915" stroke="#55493c" stroke-width="10"/>
-            <path d="M560 60v150M470 135h180M480 70l70 60" stroke="#3a332b" stroke-width="5"/>
-            <path d="M200 0v70" stroke="#3a332b" stroke-width="3"/><circle cx="200" cy="82" r="12" fill="#5a5040"/>
-            <rect y="290" width="800" height="130" fill="#2e2721"/>
-            <path d="M0 320h800M0 355h800M0 392h800M120 290v30M300 320v35M520 290v30M680 355v37M220 355v37" stroke="#211b16" stroke-width="3"/>
-          </svg>
-          <span class="ba-word">AVANT</span>
+  <main class="layout">
+    <!-- ===================== STUDIO ===================== -->
+    <section class="panel studio" aria-label="Studio de création">
+      <details class="step" open>
+        <summary><span class="num">1</span> L'idée <small id="ideaSummary">Mon chat devient président</small></summary>
+        <div class="tabs mini" role="tablist">
+          <button class="tab active" data-ideatab="lib" role="tab">📚 Bibliothèque</button>
+          <button class="tab" data-ideatab="free" role="tab">✍️ Mon idée</button>
         </div>
-        <div class="ba-layer after">
-          <svg viewBox="0 0 800 420" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-            <defs>
-              <linearGradient id="newWall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1dc"/><stop offset="1" stop-color="#f3c78f"/></linearGradient>
-              <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd59a"/><stop offset="1" stop-color="#ff9a5a"/></linearGradient>
-              <linearGradient id="parquet" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d39a60"/><stop offset="1" stop-color="#a86a3a"/></linearGradient>
-              <radialGradient id="lampGlow"><stop offset="0" stop-color="#fff2c8" stop-opacity=".95"/><stop offset="1" stop-color="#ffcf7a" stop-opacity="0"/></radialGradient>
-            </defs>
-            <rect width="800" height="290" fill="url(#newWall)"/>
-            <rect x="470" y="60" width="180" height="150" rx="6" fill="url(#sky)" stroke="#fff" stroke-width="10"/>
-            <path d="M560 60v150" stroke="#fff" stroke-width="6"/>
-            <polygon points="470,210 650,210 760,420 330,420" fill="#fff" opacity=".18"/>
-            <rect y="290" width="800" height="130" fill="url(#parquet)"/>
-            <path d="M0 320h800M0 355h800M0 392h800M150 290v30M330 320v35M550 290v30M700 355v37M240 355v37M450 392v28" stroke="#e7b47c" stroke-width="2" opacity=".7"/>
-            <ellipse cx="250" cy="340" rx="190" ry="26" fill="#fff" opacity=".28"/>
-            <rect x="110" y="215" width="280" height="80" rx="22" fill="#6d5bd0"/>
-            <rect x="130" y="190" width="240" height="56" rx="18" fill="#7d6ce0"/>
-            <rect x="96" y="232" width="34" height="70" rx="14" fill="#5b4bc0"/><rect x="370" y="232" width="34" height="70" rx="14" fill="#5b4bc0"/>
-            <rect x="150" y="205" width="70" height="40" rx="12" fill="#f5c98a"/><rect x="280" y="205" width="70" height="40" rx="12" fill="#ff9a5a"/>
-            <rect x="672" y="248" width="44" height="44" rx="6" fill="#e9e1d4"/>
-            <ellipse cx="694" cy="226" rx="16" ry="30" fill="#4f9a6a"/><ellipse cx="676" cy="236" rx="12" ry="24" fill="#5fae78" transform="rotate(-25 676 236)"/><ellipse cx="712" cy="236" rx="12" ry="24" fill="#3f8a5a" transform="rotate(25 712 236)"/>
-            <path d="M200 0v60M290 0v80" stroke="#8a6a40" stroke-width="2"/>
-            <circle cx="200" cy="70" r="60" fill="url(#lampGlow)"/><circle cx="290" cy="90" r="60" fill="url(#lampGlow)"/>
-            <path d="M178 72a22 16 0 0 1 44 0z" fill="#d9a54e"/><path d="M268 92a22 16 0 0 1 44 0z" fill="#d9a54e"/>
-          </svg>
-          <span class="ba-word">APRÈS</span>
+        <div id="ideaLib">
+          <div id="catFilters" class="chips scroll"></div>
+          <div id="conceptGrid" class="concepts"></div>
+          <button id="btnRandomIdea" class="btn ghost full">🎲 Idée au hasard</button>
         </div>
-        <div class="ba-split" aria-hidden="true"></div>
-        <div class="ba-label l">Avant</div>
-        <div class="ba-label r">Après</div>
-      </div>
-      <div class="badges">
-        <span class="glass badge rv" style="--d:3s"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Résultats durables</span>
-        <span class="glass badge rv" style="--d:3.4s"><span class="ic"><svg viewBox="0 0 24 24"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18"/></svg></span>Matériaux de qualité</span>
-        <span class="glass badge rv" style="--d:3.8s"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="4"/><path d="M2 21a7 7 0 0 1 14 0"/><path d="M16 11l2 2 4-4"/></svg></span>Accompagnement personnalisé</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- SCÈNE 5 : confiance -->
-  <section class="scene" id="s5" aria-label="Scène 5 : ils nous font confiance">
-    <svg class="constellation" id="constellation" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
-    <div class="scene-inner">
-      <p class="s-kicker rv" style="--d:.1s">Clients satisfaits</p>
-      <h2 class="s-title rv" style="--d:.2s">Ils nous font <em>confiance</em></h2>
-      <div class="stats" id="stats"></div>
-      <div class="testis" id="testis" hidden></div>
-    </div>
-  </section>
-
-  <!-- SCÈNE 6 : logo + appel à l'action -->
-  <section class="scene" id="s6" aria-label="Scène 6 : demandez votre devis">
-    <div class="logo" id="logo">
-      <div class="emblem"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg></div>
-      <p class="brand">FRED RÉNOVATION</p>
-      <div class="tag">Travaux • Rénovation • Aménagement</div>
-      <div class="cta">Demandez votre devis gratuit →</div>
-      <div class="site" id="siteUrl">fredrenovation.vercel.app</div>
-      <div class="phone" id="phone" hidden></div>
-    </div>
-    <div class="spark" style="left:30%;top:35%;animation-delay:.5s"></div>
-    <div class="spark" style="left:65%;top:45%;animation-delay:1.2s"></div>
-    <div class="spark" style="left:45%;top:25%;animation-delay:2s"></div>
-    <div class="spark" style="left:75%;top:60%;animation-delay:.8s"></div>
-    <div class="spark" style="left:25%;top:65%;animation-delay:1.8s"></div>
-  </section>
-
-  <div class="vignette" aria-hidden="true"></div>
-
-  <!-- ÉCRAN D'ACCUEIL -->
-  <section id="intro" aria-labelledby="introTitle">
-    <div class="intro-grid">
-      <div class="intro-copy">
-        <p class="chip in" style="--d:.1s"><span class="dot"></span>Spot publicitaire · 40 secondes</p>
-        <h1 class="hero-title in" id="introTitle" style="--d:.2s">Fred <span>Rénovation</span></h1>
-        <p class="lead in" style="--d:.35s">Donnez une nouvelle vie à votre maison.</p>
-        <p class="sub in" style="--d:.45s">Travaux • Rénovation • Aménagement. Un spot de 40 secondes avec voix off, musique et sous-titres, prêt à être enregistré en vidéo pour vos réseaux.</p>
-        <div class="actions in" style="--d:.55s">
-          <button type="button" class="btn btn-primary" id="introPlay"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 4.5v15l12-7.5z" fill="currentColor"/></svg>Lancer le spot</button>
-          <button type="button" class="btn btn-ghost" id="introRec"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>Enregistrer la vidéo</button>
+        <div id="ideaFree" hidden>
+          <label class="field">
+            <span>Mon chat…</span>
+            <input id="freeTopic" type="text" maxlength="80" placeholder="devient astronaute" />
+          </label>
+          <div class="chips" id="freeExamples"></div>
+          <p class="hint">Écris la suite de la phrase « Mon chat… ». Le décor est choisi automatiquement.</p>
         </div>
-        <ul class="features in" style="--d:.65s">
-          <li><svg viewBox="0 0 24 24"><path d="M12 3a3 3 0 0 0-3 3v6a3 3 0 0 0 6 0V6a3 3 0 0 0-3-3z"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>Voix off</li>
-          <li><svg viewBox="0 0 24 24"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/></svg>Musique</li>
-          <li><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M7 12h4M13 12h4M7 15h7"/></svg>Sous-titres</li>
-          <li><svg viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>Export vidéo</li>
-        </ul>
-        <p class="note in" id="recNote" style="--d:.75s" hidden>L'enregistrement vidéo fonctionne sur ordinateur (Chrome, Edge ou Firefox).</p>
-        <p class="note kbd-hint in" style="--d:.8s">Raccourcis : <kbd>Espace</kbd> lancer · <kbd>R</kbd> réinitialiser</p>
+      </details>
+
+      <details class="step" open>
+        <summary><span class="num">2</span> Le chat <small id="catSummary">Moustache</small></summary>
+        <div class="grid2">
+          <label class="field"><span>Nom du chat</span><input id="catName" type="text" maxlength="18" value="Moustache" /></label>
+          <label class="field"><span>Durée</span>
+            <select id="length"><option value="court">⚡ Courte (~15 s)</option><option value="moyen" selected>🎯 Moyenne (~25 s)</option><option value="long">🎞️ Longue (~40 s)</option></select>
+          </label>
+        </div>
+        <div class="field"><span>Pelage</span><div id="furs" class="swatches"></div></div>
+        <div class="field"><span>Personnalité</span><div id="personas" class="chips wrap"></div></div>
+        <details class="sub">
+          <summary>🎩 Accessoires (automatiques par défaut)</summary>
+          <div class="grid3">
+            <label class="field"><span>Tête</span><select id="accTete"></select></label>
+            <label class="field"><span>Visage</span><select id="accVisage"></select></label>
+            <label class="field"><span>Cou</span><select id="accCou"></select></label>
+          </div>
+        </details>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">3</span> Voix &amp; son <small id="voiceSummary">Miaou-parlé</small></summary>
+        <label class="field"><span>Doublage</span><select id="voiceEngine"></select></label>
+        <div class="grid2">
+          <label class="field"><span>Voix du chat</span><select id="catVoice"></select></label>
+          <label class="field"><span>Musique</span><select id="music"></select></label>
+        </div>
+        <button id="btnTestVoice" class="btn ghost full">🔊 Tester la voix</button>
+        <p id="voiceHint" class="hint"></p>
+      </details>
+
+      <details class="step">
+        <summary><span class="num">4</span> Réglages viraux <small id="viralSummary">Mode viral ON</small></summary>
+        <label class="toggle big">
+          <input id="viralMode" type="checkbox" checked />
+          <span class="sw"></span>
+          <span><b>🔥 Mode viral</b><em>Hook en moins de 2 s, rythme rapide, coupes fréquentes, bruitages, mèmes et CTA drôle ajoutés automatiquement.</em></span>
+        </label>
+        <label class="toggle">
+          <input id="loopMode" type="checkbox" checked />
+          <span class="sw"></span>
+          <span><b>🔁 Fin en boucle</b><em>Coupe sèche qui pousse à revoir la vidéo.</em></span>
+        </label>
+        <div class="grid2">
+          <label class="field"><span>Sous-titres</span>
+            <select id="subMode"><option value="groupe">Mot par mot (groupes de 3)</option><option value="mot">Un seul mot géant</option><option value="aucun">Aucun</option></select>
+          </label>
+          <label class="field"><span>Qualité export</span>
+            <select id="quality"><option value="720">720p (rapide)</option><option value="1080">1080p (HD)</option></select>
+          </label>
+        </div>
+        <div class="grid2">
+          <label class="field"><span>Ton @ (filigrane)</span><input id="handle" type="text" maxlength="24" placeholder="moncompte" /></label>
+          <label class="field"><span>Scénario</span>
+            <select id="scriptEngine"><option value="local">🧠 Local (gratuit)</option><option value="ia" disabled>✨ IA en ligne (clé API)</option></select>
+          </label>
+        </div>
+      </details>
+
+      <div class="cta-bar">
+        <button id="btnGenerate" class="btn primary xl">✨ Générer la vidéo</button>
+        <button id="btnReroll" class="btn ghost" title="Autre version du même concept" disabled>🎲</button>
       </div>
-      <div class="intro-visual in" style="--d:.3s" aria-hidden="true">
-        <div class="iso-wrap">
-          <div class="halo"></div>
-          <div class="ring r2"></div>
-          <div class="ring r1"></div>
-          <div class="iso">
-            <svg viewBox="40 60 340 360">
-              <defs>
-                <linearGradient id="gFront" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fff1dc"/><stop offset="1" stop-color="#f2b46d"/></linearGradient>
-                <linearGradient id="gSide" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff9a4d"/><stop offset="1" stop-color="#9a4fd1"/></linearGradient>
-                <linearGradient id="gGable" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9773f"/><stop offset="1" stop-color="#7b3fc0"/></linearGradient>
-                <linearGradient id="gRoof" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7fb0ff"/><stop offset=".55" stop-color="#8b5cf6"/><stop offset="1" stop-color="#c084fc"/></linearGradient>
-                <linearGradient id="gSlab" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff8a3d" stop-opacity=".8"/><stop offset="1" stop-color="#a855f7" stop-opacity=".8"/></linearGradient>
-              </defs>
-              <g stroke="rgba(255,255,255,.55)" stroke-width="1.2" stroke-linejoin="round">
-                <polygon points="200,236 328.2,310 217.3,374 89.1,300" fill="rgba(255,255,255,.07)"/>
-                <polygon points="89.1,300 217.3,374 217.3,384 89.1,310" fill="url(#gSlab)"/>
-                <polygon points="217.3,374 328.2,310 328.2,320 217.3,384" fill="url(#gSlab)" opacity=".75"/>
-                <polygon points="113.4,300 217.3,360 217.3,270 113.4,210" fill="url(#gFront)"/>
-                <polygon points="303.9,310 217.3,360 217.3,270 303.9,220" fill="url(#gSide)"/>
-                <polygon points="303.9,220 217.3,270 260.6,135" fill="url(#gGable)"/>
-                <polygon points="156.7,125 260.6,135 217.3,270 113.4,210" fill="url(#gRoof)"/>
-                <polygon points="213,172.5 221.7,177.5 221.7,228.5 213,223.5" fill="#e98f4a"/>
-                <polygon points="221.7,177.5 230.3,172.5 230.3,211.5 221.7,228.5" fill="#9a4fd1"/>
-                <polygon points="221.7,167.5 230.3,172.5 221.7,177.5 213,172.5" fill="#ffd59a"/>
-              </g>
-              <g filter="url(#glow)">
-                <polygon points="123.8,266 144.6,278 144.6,250 123.8,238" fill="#ffd27a"/>
-                <polygon points="187.9,303 208.7,315 208.7,287 187.9,275" fill="#ffd27a"/>
-                <polygon points="277.9,285 243.3,305 243.3,277 277.9,257" fill="#ffe2a8"/>
-              </g>
-              <polygon points="156.7,325 175.8,336 175.8,286 156.7,275" fill="#3b1f5e" stroke="rgba(255,255,255,.5)"/>
-              <circle cx="171.5" cy="310" r="1.8" fill="#f5c98a"/>
-              <g fill="#ffd59a">
-                <circle cx="110" cy="160" r="2"></circle>
-                <circle cx="320" cy="180" r="1.6"></circle>
-                <circle cx="290" cy="110" r="1.4" fill="#c4a3ff"></circle>
-                <circle cx="80" cy="250" r="1.4" fill="#9cc2ff"></circle>
-              </g>
-            </svg>
+    </section>
+
+    <!-- ===================== APERÇU ===================== -->
+    <section class="preview" aria-label="Aperçu vidéo">
+      <div class="phone">
+        <div class="notch"></div>
+        <div class="screen">
+          <canvas id="stage" width="720" height="1280" aria-label="Aperçu de la vidéo"></canvas>
+          <div id="safeZones" class="safe" hidden><div class="sz-top"></div><div class="sz-right"></div><div class="sz-bottom"></div></div>
+          <button id="bigPlay" class="big-play" hidden aria-label="Lecture">▶</button>
+          <div id="busy" class="busy" hidden><div class="spinner">🐾</div><p id="busyText">Préparation…</p><div class="bar"><i id="busyBar"></i></div></div>
+        </div>
+      </div>
+      <div class="transport">
+        <button id="btnPlay" class="btn round" disabled aria-label="Lecture">▶</button>
+        <input id="scrub" type="range" min="0" max="1000" value="0" disabled aria-label="Position" />
+        <span id="time" class="time">0:00 / 0:00</span>
+      </div>
+      <div class="preview-actions">
+        <label class="toggle tiny"><input id="showSafe" type="checkbox" /><span class="sw"></span><span>Zones TikTok</span></label>
+        <button id="btnExport" class="btn primary" disabled>🎬 Exporter la vidéo</button>
+      </div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <!-- ===================== RÉSULTATS ===================== -->
+    <section class="panel results" aria-label="Script, viralité et publication">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="script" role="tab">🎬 Script</button>
+        <button class="tab" data-tab="viral" role="tab">🔥 Viralité <b id="scoreTab" class="score-chip">—</b></button>
+        <button class="tab" data-tab="pub" role="tab">📲 Publier</button>
+      </div>
+
+      <div class="tabpane" data-pane="script">
+        <div id="beats" class="beats"><div class="empty">🐱 Génère une vidéo pour voir et modifier le script séquence par séquence.<br><small>Astuce : entoure un passage d'*astérisques* pour le faire ressortir en couleur.</small></div></div>
+        <button id="btnAddBeat" class="btn ghost full" hidden>＋ Ajouter une séquence</button>
+      </div>
+
+      <div class="tabpane" data-pane="viral" hidden>
+        <div class="score-card">
+          <div class="ring"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" class="bg"/><circle id="ringFg" cx="60" cy="60" r="52" class="fg"/></svg><div><b id="scoreNum">—</b><small>/100</small></div></div>
+          <div class="score-info">
+            <span id="levelBadge" class="level">—</span>
+            <div class="kpis">
+              <div><b id="kHold">—</b><small>restent après 3 s</small></div>
+              <div><b id="kComp">—</b><small>regardent jusqu'au bout</small></div>
+              <div><b id="kDur">—</b><small>durée</small></div>
+            </div>
           </div>
         </div>
+        <h3>📉 Rétention estimée</h3>
+        <svg id="retention" class="retention" viewBox="0 0 320 120" preserveAspectRatio="none"></svg>
+        <div class="row-between"><h3>💡 Suggestions</h3><button id="btnFixAll" class="btn small primary" disabled>⚡ Tout optimiser</button></div>
+        <ul id="criteria" class="criteria"></ul>
+        <p class="hint">Score estimé à partir des bonnes pratiques TikTok / Shorts / Reels (hook, rythme, chute, effets, CTA). Ce n'est pas une garantie de vues.</p>
       </div>
-    </div>
-  </section>
-  <div class="beam" aria-hidden="true"></div>
 
-  <div id="caption" aria-hidden="true"></div>
-  <div id="progress" aria-hidden="true"></div>
-  <div id="rec-dot" aria-hidden="true"></div>
-  <div id="hud" role="toolbar" aria-label="Commandes du spot">
-    <button type="button" id="play">▶ Lancer le spot</button>
-    <button type="button" id="rec" aria-label="Enregistrer la vidéo">● <span class="long">Enregistrer la vidéo</span><span class="short">Enregistrer</span></button>
-    <button type="button" id="cc" class="ico" aria-pressed="true" aria-label="Sous-titres" title="Sous-titres">CC</button>
-    <button type="button" id="reset" class="ico" aria-label="Réinitialiser (R)" title="Réinitialiser (R)">↺</button>
-  </div>
-  <div id="toast" role="status" aria-live="polite"></div>
-</main>
+      <div class="tabpane" data-pane="pub" hidden>
+        <label class="field"><span>Titre viral</span><div class="copyrow"><input id="pubTitle" type="text" /><button class="btn small" data-copy="pubTitle">📋</button></div></label>
+        <label class="field"><span>Texte à l'écran (hook)</span><input id="pubOverlay" type="text" maxlength="48" /></label>
+        <label class="field"><span>Description</span><div class="copyrow"><textarea id="pubDesc" rows="3"></textarea><button class="btn small" data-copy="pubDesc">📋</button></div></label>
+        <label class="field"><span>Hashtags</span><div class="copyrow"><input id="pubTags" type="text" /><button class="btn small" data-copy="pubTags">📋</button></div></label>
+        <button id="btnCopyAll" class="btn primary full">📋 Copier description + hashtags</button>
+        <div class="downloads">
+          <button id="btnDlVideo" class="btn ghost" disabled>⬇️ Vidéo</button>
+          <button id="btnDlSrt" class="btn ghost" disabled>⬇️ Sous-titres .srt</button>
+          <button id="btnDlTxt" class="btn ghost" disabled>⬇️ Script .txt</button>
+        </div>
+        <div class="platforms">
+          <div><b>TikTok</b><small>Format 9:16 ✓ · 15–35 s idéal · publie entre 18 h et 21 h</small></div>
+          <div><b>YouTube Shorts</b><small>Ajoute #Shorts dans le titre · moins de 60 s</small></div>
+          <div><b>Instagram Reels</b><small>Couverture = image du hook · 3 à 5 hashtags</small></div>
+        </div>
+      </div>
+    </section>
+  </main>
 
-<script>
-/* =========================================================
-   RÉGLAGES — modifiables sans toucher au reste du code
-   ========================================================= */
-const CONFIG = {
-  site: 'fredrenovation.vercel.app',
-  telephone: '',                 // ex. '06 00 00 00 00' (vide = non affiché)
-  sousTitres: true,              // sous-titres de la voix off à l'écran
-  enregistrementPropre: true,    // masque boutons, barre et point rouge dans la vidéo enregistrée
-  // Chiffres affichés en scène 5. N'ajoutez que des chiffres vrais.
-  // ex. { valeur: 15, label: "ans d'expérience" }
-  stats: [
-    { valeur: 5,   label: "domaines d'expertise" },
-    { valeur: 100, suffixe: ' %', label: 'accompagnement personnalisé' },
-    { depart: 100, valeur: 0, suffixe: ' €', label: 'pour votre devis' }
-  ],
-  // Vrais avis clients uniquement (3 maximum affichés).
-  // ex. { texte: "Travail soigné et délais respectés.", auteur: "Prénom N., ville" }
-  temoignages: []
-};
+  <footer class="foot">
+    <span>🐾 Chatastrophe Studio — génération 100 % dans ton navigateur, aucune vidéo envoyée sur un serveur.</span>
+    <span>Optimisé TikTok · YouTube Shorts · Instagram Reels</span>
+  </footer>
 
-/* =========================================================
-   TIMELINE (ms) — 40 secondes
-   ========================================================= */
-const TOTAL = 40000;
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <canvas id="confetti" class="confetti" aria-hidden="true"></canvas>
 
-const SCENES = [
-  { id:'s1', start:0,     end:5000  },
-  { id:'s2', start:5000,  end:12000 },
-  { id:'s3', start:12000, end:20000 },
-  { id:'s4', start:20000, end:30000 },
-  { id:'s5', start:30000, end:36000 },
-  { id:'s6', start:36000, end:40000 }
-];
-
-/* Voix off + texte à l'écran, synchronisés */
-const VO = [
-  { t:0,     text:"Et si votre projet de rénovation devenait enfin réalité ?",
-    caption:"Votre maison mérite le meilleur." },
-  { t:5000,  text:"Fred Rénovation vous accompagne pour transformer votre habitat avec professionnalisme et savoir-faire." },
-  { t:12000, text:"De la rénovation complète aux finitions les plus exigeantes, chaque détail compte." },
-  { t:20000, text:"Des résultats durables, des matériaux de qualité et un accompagnement personnalisé." },
-  { t:30000, text:"Des dizaines de clients nous font déjà confiance pour leurs projets." },
-  { t:36000, text:"Fred Rénovation. Donnez une nouvelle vie à votre maison." }
-];
-
-/* =========================================================
-   ÉTAT
-   ========================================================= */
-let playing = false;
-let startTime = 0;
-let rafId = null;
-let timers = [];
-let audioCtx = null, musicNodes = [], sfxGain = null;
-let bus = null, recDest = null;
-let recorder = null, chunks = [], stream = null;
-let recording = false, discardRec = false;
-let subsOn = CONFIG.sousTitres;
-let hudTimer = null, toastTimer = null, counterRun = 0;
-
-const $ = s => document.querySelector(s);
-const stage = $('#stage');
-const captionEl = $('#caption');
-const progressEl = $('#progress');
-const playBtn = $('#play');
-const recBtn = $('#rec');
-const recDot = $('#rec-dot');
-const introRec = $('#introRec');
-const toastEl = $('#toast');
-const BASE_TITLE = document.title;
-const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-const canRecord = !!(navigator.mediaDevices && navigator.mediaDevices.getDisplayMedia && window.MediaRecorder);
-
-/* Minuteur suivi : tout est annulé proprement à la réinitialisation */
-function later(fn, ms){ const id = setTimeout(fn, ms); timers.push(id); return id; }
-
-/* =========================================================
-   AUDIO — musique de fond (Web Audio API, synthèse)
-   Tout passe par un « bus » relié aux haut-parleurs ET à l'enregistreur.
-   ========================================================= */
-function initAudio(){
-  if (audioCtx) return;
-  const AC = window.AudioContext || window.webkitAudioContext;
-  if (!AC) return;
-  audioCtx = new AC();
-  bus = audioCtx.createGain();
-  bus.connect(audioCtx.destination);
-  if (audioCtx.createMediaStreamDestination){
-    recDest = audioCtx.createMediaStreamDestination();
-    bus.connect(recDest);
-  }
-}
-
-function playMusic(){
-  initAudio();
-  if (!audioCtx) return;
-  const master = audioCtx.createGain();
-  master.gain.value = 0.06;          // volume de fond discret
-  master.connect(bus);
-
-  // Nappe harmonique (accords warm : Fmaj7 → Cmaj → Am7 → G)
-  const chords = [
-    [174.61, 220.00, 261.63, 329.63], // F
-    [130.81, 164.81, 196.00, 261.63], // C
-    [110.00, 130.81, 164.81, 220.00], // Am
-    [ 98.00, 123.47, 146.83, 196.00]  // G
-  ];
-  const now = audioCtx.currentTime;
-  const totalChords = chords.length;
-  const durPerChord = TOTAL / 1000 / totalChords;
-
-  chords.forEach((chord, ci) => {
-    chord.forEach((freq, fi) => {
-      const osc = audioCtx.createOscillator();
-      const g = audioCtx.createGain();
-      osc.type = 'sine';
-      osc.frequency.value = freq;
-      const t0 = now + ci * durPerChord;
-      g.gain.setValueAtTime(0, t0);
-      g.gain.linearRampToValueAtTime(0.9 / (fi + 1.5), t0 + 0.6);
-      g.gain.linearRampToValueAtTime(0, t0 + durPerChord + 0.4);
-      osc.connect(g); g.connect(master);
-      osc.start(t0);
-      osc.stop(t0 + durPerChord + 0.5);
-      musicNodes.push(osc);
-    });
-  });
-
-  // Léger pad rythmique (pulsation douce)
-  for (let i = 0; i < TOTAL / 2000; i++){
-    const osc = audioCtx.createOscillator();
-    const g = audioCtx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.value = 65.41; // C2
-    const t0 = now + i * 2;
-    g.gain.setValueAtTime(0, t0);
-    g.gain.linearRampToValueAtTime(0.25, t0 + 0.05);
-    g.gain.exponentialRampToValueAtTime(0.001, t0 + 1.6);
-    osc.connect(g); g.connect(master);
-    osc.start(t0); osc.stop(t0 + 1.8);
-    musicNodes.push(osc);           // corrigé : la pulsation s'arrête aussi à la réinitialisation
-  }
-}
-
-function stopMusic(){
-  musicNodes.forEach(o => { try{ o.stop(); }catch(e){} });
-  musicNodes = [];
-}
-
-/* =========================================================
-   BRUITAGES — synthèse bruit blanc filtré
-   ========================================================= */
-function playSfx(type){
-  initAudio();
-  if (!audioCtx) return;
-  const dur = type === 'saw' ? 1.4 : 0.35;
-  const buffer = audioCtx.createBuffer(1, audioCtx.sampleRate * dur, audioCtx.sampleRate);
-  const data = buffer.getChannelData(0);
-  for (let i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
-
-  const src = audioCtx.createBufferSource();
-  src.buffer = buffer;
-
-  const filt = audioCtx.createBiquadFilter();
-  filt.type = 'bandpass';
-  filt.frequency.value = type === 'saw' ? 1800 : 900;
-  filt.Q.value = type === 'saw' ? 6 : 1.5;
-
-  const g = audioCtx.createGain();
-  g.gain.setValueAtTime(type === 'saw' ? 0.10 : 0.18, audioCtx.currentTime);
-  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-
-  src.connect(filt); filt.connect(g); g.connect(bus);
-  src.start();
-  src.stop(audioCtx.currentTime + dur);
-}
-
-/* =========================================================
-   VOIX OFF — Web Speech API (fr-FR)
-   ========================================================= */
-let voicesLoaded = false;
-function pickFrenchVoice(){
-  const voices = speechSynthesis.getVoices();
-  // Priorité : voix masculine française si disponible
-  const fr = voices.filter(v => v.lang && v.lang.toLowerCase().startsWith('fr'));
-  const male = fr.find(v => /paul|thomas|male|homme|google.*français/i.test(v.name));
-  return male || fr[0] || voices[0];
-}
-
-function speak(text){
-  if (!('speechSynthesis' in window)) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'fr-FR';
-  u.rate = 0.95;
-  u.pitch = 0.9;
-  u.volume = 1;
-  const v = pickFrenchVoice();
-  if (v) u.voice = v;
-  speechSynthesis.speak(u);
-}
-
-function stopSpeak(){
-  if ('speechSynthesis' in window) speechSynthesis.cancel();
-}
-
-/* Débloque son + voix pendant le clic (obligatoire sur iPhone/iPad) */
-function unlockAudio(){
-  initAudio();
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-  if ('speechSynthesis' in window){
-    try{ const u = new SpeechSynthesisUtterance(' '); u.volume = 0; speechSynthesis.speak(u); }catch(e){}
-  }
-}
-
-/* =========================================================
-   CONTRÔLE DES SCÈNES
-   ========================================================= */
-function showScene(id){
-  document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
-  const el = document.getElementById(id);
-  if (el){ void el.offsetWidth; el.classList.add('active'); }   // reflow : rejoue les animations
-
-  // déclencheurs spécifiques
-  if (id === 's3'){
-    document.querySelectorAll('#s3 .card').forEach((c,i)=>{
-      c.classList.remove('show');
-      later(()=>c.classList.add('show'), 150 + i*450);
-    });
-  }
-  if (id === 's4'){
-    const ba = $('#ba');
-    ba.classList.remove('play');
-    // force reflow
-    void ba.offsetWidth;
-    later(()=>ba.classList.add('play'), 300);
-  }
-  if (id === 's5'){
-    later(runCounters, 350);
-  }
-  if (id === 's6'){
-    const logo = $('#logo');
-    logo.classList.remove('show');
-    void logo.offsetWidth;
-    later(()=>logo.classList.add('show'), 200);
-  }
-}
-
-function showCaption(text){
-  if (!text){ captionEl.classList.remove('show'); return; }
-  captionEl.textContent = text;
-  captionEl.classList.add('show');
-}
-
-/* =========================================================
-   STATISTIQUES ANIMÉES, TÉMOIGNAGES, COORDONNÉES
-   ========================================================= */
-const fmtNum = (n, el) => (el.dataset.prefix || '') + Math.round(n).toLocaleString('fr-FR') + (el.dataset.suffix || '');
-
-function buildContent(){
-  const statsEl = $('#stats');
-  const stats = (CONFIG.stats || []).slice(0, 4);
-  statsEl.style.setProperty('--n', Math.max(1, stats.length));
-  stats.forEach((s, i) => {
-    const box = document.createElement('div');
-    box.className = 'glass stat rv';
-    box.style.setProperty('--d', (0.3 + i * 0.15) + 's');
-    const num = document.createElement('div');
-    num.className = 'stat-num';
-    num.dataset.from = s.depart != null ? s.depart : 0;
-    num.dataset.to = s.valeur;
-    num.dataset.prefix = s.prefixe || '';
-    num.dataset.suffix = s.suffixe || '';
-    num.textContent = fmtNum(+num.dataset.from, num);
-    const lab = document.createElement('div');
-    lab.className = 'stat-label';
-    lab.textContent = s.label;
-    box.append(num, lab);
-    statsEl.append(box);
-  });
-
-  const list = (CONFIG.temoignages || []).filter(t => t && t.texte).slice(0, 3);
-  if (list.length){
-    const wrap = $('#testis');
-    wrap.hidden = false;
-    list.forEach((t, i) => {
-      const fig = document.createElement('figure');
-      fig.className = 'glass testi rv';
-      fig.style.setProperty('--d', (0.9 + i * 0.25) + 's');
-      const q = document.createElement('blockquote'); q.textContent = t.texte;
-      const c = document.createElement('figcaption'); c.textContent = t.auteur || '';
-      fig.append(q, c);
-      wrap.append(fig);
-    });
-  }
-
-  $('#siteUrl').textContent = CONFIG.site;
-  if (CONFIG.telephone){ const p = $('#phone'); p.textContent = '📞 ' + CONFIG.telephone; p.hidden = false; }
-
-  // Réseau lumineux de la scène 5 (décoratif)
-  const svg = $('#constellation'), NS = 'http://www.w3.org/2000/svg';
-  const pts = [[90,120],[230,70],[370,150],[520,90],[680,140],[830,80],[930,190],[140,300],[300,260],[460,330],[620,280],[780,330],[900,420],[60,470],[210,520],[390,470],[560,530],[720,480],[870,560]];
-  pts.forEach((a, i) => pts.forEach((b, j) => {
-    if (j <= i) return;
-    if (Math.hypot(a[0]-b[0], a[1]-b[1]) < 230){
-      const l = document.createElementNS(NS, 'line');
-      l.setAttribute('x1', a[0]); l.setAttribute('y1', a[1]); l.setAttribute('x2', b[0]); l.setAttribute('y2', b[1]);
-      l.style.setProperty('--d', (0.2 + (i % 8) * 0.12) + 's');
-      svg.append(l);
-    }
-  }));
-  pts.forEach((p, i) => {
-    const c = document.createElementNS(NS, 'circle');
-    c.setAttribute('cx', p[0]); c.setAttribute('cy', p[1]); c.setAttribute('r', i % 3 ? 3 : 4.5);
-    c.style.setProperty('--d', (i * 0.18) + 's');
-    svg.append(c);
-  });
-}
-
-function runCounters(){
-  const run = ++counterRun;
-  document.querySelectorAll('.stat-num').forEach(el => {
-    const from = +el.dataset.from, to = +el.dataset.to;
-    if (REDUCED){ el.textContent = fmtNum(to, el); return; }
-    const t0 = performance.now(), dur = 1700;
-    (function tick(now){
-      if (run !== counterRun) return;
-      const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
-      el.textContent = fmtNum(from + (to - from) * e, el);
-      if (p < 1) requestAnimationFrame(tick);
-    })(t0);
-  });
-}
-function resetCounters(){
-  counterRun++;
-  document.querySelectorAll('.stat-num').forEach(el => el.textContent = fmtNum(+el.dataset.from, el));
-}
-
-/* =========================================================
-   LECTURE DU SPOT
-   ========================================================= */
-function startSpot(){
-  if (playing) return;
-  playing = true;
-  playBtn.disabled = true;
-  stage.classList.remove('is-idle', 'is-ended');
-  stage.classList.add('is-playing');
-
-  initAudio();
-  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
-
-  // précharger les voix
-  if ('speechSynthesis' in window){
-    speechSynthesis.getVoices();
-    voicesLoaded = true;
-  }
-
-  startTime = performance.now();
-  playMusic();
-
-  // programmer chaque scène
-  SCENES.forEach(s => {
-    later(()=>showScene(s.id), s.start);
-  });
-
-  // programmer voix off + textes (sous-titres = texte de la voix off)
-  VO.forEach(v => {
-    later(()=>{
-      speak(v.text);
-      showCaption(subsOn ? v.text : (v.caption || ''));
-    }, v.t === 0 ? 400 : v.t);
-  });
-
-  // bruitages chantier scène 2
-  for (let t = 5000; t < 12000; t += 1400){
-    later(()=>playSfx(t % 2800 < 1400 ? 'saw' : 'hammer'), t);
-  }
-
-  // fin
-  later(()=>{ showCaption(''); stopSpeak(); }, TOTAL);
-
-  rafId = requestAnimationFrame(loopProgress);
-}
-
-function loopProgress(){
-  if (!playing) return;
-  const elapsed = performance.now() - startTime;
-  const p = Math.min(100, elapsed / TOTAL * 100);
-  progressEl.style.width = p + '%';
-  if (elapsed < TOTAL){
-    rafId = requestAnimationFrame(loopProgress);
-  } else {
-    finishSpot();
-  }
-}
-
-function finishSpot(){
-  playing = false;
-  cancelAnimationFrame(rafId);
-  playBtn.disabled = false;
-  playBtn.textContent = '↻ Rejouer le spot';
-  stage.classList.remove('is-playing');
-  stage.classList.add('is-ended');
-  if (recorder && recorder.state === 'recording'){
-    setTimeout(()=>{ if (recorder && recorder.state === 'recording') recorder.stop(); }, 700); // garde la dernière image
-  }
-  // laisser la scène 6 affichée
-}
-
-function resetSpot(){
-  stopSpeak();
-  stopMusic();
-  timers.forEach(clearTimeout); timers = [];
-  playing = false;
-  cancelAnimationFrame(rafId);
-  progressEl.style.width = '0%';
-  showCaption('');
-  showScene('s1');
-  $('#ba').classList.remove('play');
-  $('#logo').classList.remove('show');
-  document.querySelectorAll('#s3 .card').forEach(c=>c.classList.remove('show'));
-  resetCounters();
-  playBtn.disabled = false;                       // corrigé : le bouton restait bloqué après « R »
-  stage.classList.remove('is-playing', 'is-ended', 'hud-show');
-  if (recording && recorder && recorder.state === 'recording'){
-    discardRec = true; recorder.stop();
-    toast('Enregistrement annulé.');
-  }
-}
-
-function showIntro(){ stage.classList.add('is-idle'); }
-function hideIntro(){ stage.classList.remove('is-idle'); }
-
-function onPlay(){
-  resetSpot();
-  unlockAudio();
-  hideIntro();
-  later(startSpot, 200);
-}
-function onReset(){
-  resetSpot();
-  showIntro();
-}
-
-/* =========================================================
-   ENREGISTREMENT VIDÉO (getDisplayMedia + MediaRecorder)
-   L'utilisateur partage cet onglet ; la vidéo .webm est téléchargée à la fin.
-   Son : audio de l'onglet si partagé, sinon musique + bruitages internes.
-   ========================================================= */
-function pickMime(){
-  if (!window.MediaRecorder || !MediaRecorder.isTypeSupported) return '';
-  return ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4;codecs=avc1,mp4a','video/mp4']
-    .find(t => MediaRecorder.isTypeSupported(t)) || '';
-}
-function stopStream(){
-  if (stream){ stream.getTracks().forEach(t => t.stop()); stream = null; }
-}
-function endRecordingUI(){
-  recording = false;
-  stopStream();
-  stage.classList.remove('is-recording', 'rec-clean');
-  recDot.classList.remove('on');
-  document.title = BASE_TITLE;
-  recBtn.disabled = introRec.disabled = !canRecord;
-}
-
-async function startRecording(){
-  if (!canRecord){ toast("L'enregistrement vidéo fonctionne sur ordinateur (Chrome, Edge ou Firefox)."); return; }
-  if (recording) return;
-  unlockAudio();
-  try {
-    stream = await navigator.mediaDevices.getDisplayMedia({
-      video: { frameRate: 60 },
-      audio: true,
-      preferCurrentTab: true,
-      selfBrowserSurface: 'include',
-      surfaceSwitching: 'exclude'
-    });
-  } catch(e){
-    toast("Enregistrement annulé. Pour enregistrer, choisissez « Cet onglet » puis « Partager ».");
-    return;
-  }
-
-  const tracks = [...stream.getVideoTracks()];
-  const tabAudio = stream.getAudioTracks();
-  if (tabAudio.length) tracks.push(tabAudio[0]);
-  else if (recDest) tracks.push(...recDest.stream.getAudioTracks());
-
-  const mime = pickMime();
-  try {
-    recorder = new MediaRecorder(new MediaStream(tracks), mime ? { mimeType: mime, videoBitsPerSecond: 8e6 } : { videoBitsPerSecond: 8e6 });
-  } catch(e){
-    stopStream();
-    toast("Votre navigateur ne permet pas d'enregistrer cette vidéo. Essayez avec Chrome ou Edge.");
-    return;
-  }
-  const ext = (recorder.mimeType || mime).includes('mp4') ? 'mp4' : 'webm';
-  const fileName = 'fred-renovation-spot-40s.' + ext;
-  chunks = [];
-  discardRec = false;
-  recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
-  recorder.onstop = () => {
-    if (!discardRec && chunks.length){
-      const blob = new Blob(chunks, { type: recorder.mimeType || 'video/' + ext });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = fileName;
-      document.body.appendChild(a); a.click(); a.remove();
-      setTimeout(()=>URL.revokeObjectURL(url), 10000);   // corrigé : ne plus révoquer avant la fin du téléchargement
-      endRecordingUI();
-      toast('Vidéo enregistrée : ' + fileName);
-    } else {
-      endRecordingUI();
-    }
-  };
-  // Si l'utilisateur clique sur « Arrêter le partage »
-  stream.getVideoTracks()[0].addEventListener('ended', () => {
-    if (recorder && recorder.state === 'recording') recorder.stop();
-  });
-
-  // relancer le spot proprement
-  resetSpot();
-  recording = true;
-  stage.classList.add('is-recording');
-  if (CONFIG.enregistrementPropre) stage.classList.add('rec-clean');
-  recDot.classList.add('on');
-  document.title = '● REC — ' + BASE_TITLE;
-  recBtn.disabled = introRec.disabled = true;
-  hideIntro();
-  recorder.start(1000);
-  later(startSpot, 600);
-}
-
-/* =========================================================
-   INTERFACE : HUD auto-masqué, sous-titres, messages
-   ========================================================= */
-function toast(msg){
-  toastEl.textContent = msg;
-  toastEl.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>toastEl.classList.remove('show'), 5000);
-}
-function pokeHud(){
-  if (!stage.classList.contains('is-playing')) return;
-  stage.classList.add('hud-show');
-  clearTimeout(hudTimer);
-  hudTimer = setTimeout(()=>stage.classList.remove('hud-show'), 2500);
-}
-
-/* =========================================================
-   ÉVÉNEMENTS
-   ========================================================= */
-playBtn.addEventListener('click', onPlay);
-$('#introPlay').addEventListener('click', onPlay);
-recBtn.addEventListener('click', startRecording);
-introRec.addEventListener('click', startRecording);
-$('#reset').addEventListener('click', onReset);
-$('#cc').addEventListener('click', e => {
-  subsOn = !subsOn;
-  e.currentTarget.setAttribute('aria-pressed', subsOn);
-  if (!subsOn) showCaption('');
-});
-
-window.addEventListener('keydown', e=>{
-  if (e.code === 'Space' && e.target.closest && e.target.closest('button')) return; // laisse le bouton gérer
-  if (e.code === 'Space'){ e.preventDefault(); if (!playing) onPlay(); }
-  if (e.code === 'KeyR' && !e.ctrlKey && !e.metaKey){ onReset(); }
-});
-stage.addEventListener('pointermove', pokeHud, { passive:true });
-stage.addEventListener('pointerdown', pokeHud, { passive:true });
-
-if (!canRecord){
-  recBtn.disabled = introRec.disabled = true;
-  recBtn.hidden = true;
-  $('#recNote').hidden = false;
-}
-
-// Préchargement des voix
-if ('speechSynthesis' in window){
-  speechSynthesis.onvoiceschanged = () => { voicesLoaded = true; };
-  speechSynthesis.getVoices();
-}
-
-buildContent();
-showScene('s1');
-
-/* =========================================================
-   FOND ANIMÉ : réseau de particules interactif + parallaxe
-   ========================================================= */
-(function(){
-  const c = document.getElementById('bg');
-  const ctx = c.getContext('2d');
-  const COLORS = ['127,176,255','196,163,255','255,154,77','245,201,138'];
-  const mouse = { x:-1e4, y:-1e4 };
-  let w = 0, h = 0, pts = [], D = 120, last = 0, raf = 0;
-
-  function size(){
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    w = c.clientWidth; h = c.clientHeight;
-    c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    const n = Math.max(22, Math.min(80, Math.round(w * h / 24000)));
-    D = Math.max(90, Math.min(160, Math.min(w, h) * 0.2));
-    pts = Array.from({ length:n }, () => ({
-      x: Math.random() * w, y: Math.random() * h,
-      vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3,
-      r: Math.random() * 1.4 + .5, c: COLORS[(Math.random() * COLORS.length) | 0]
-    }));
-  }
-  function frame(t){
-    const dt = last ? Math.min(3, (t - last) / 16.7) : 1; last = t;
-    ctx.clearRect(0, 0, w, h);
-    const R = 180, R2 = R * R, D2 = D * D;
-    for (const p of pts){
-      if (!REDUCED){ p.x += p.vx * dt; p.y += p.vy * dt; }
-      const dx = mouse.x - p.x, dy = mouse.y - p.y;
-      if (dx*dx + dy*dy < R2){ p.x += dx * .002 * dt; p.y += dy * .002 * dt; }
-      if (p.x < -20) p.x = w + 20; else if (p.x > w + 20) p.x = -20;
-      if (p.y < -20) p.y = h + 20; else if (p.y > h + 20) p.y = -20;
-    }
-    ctx.lineWidth = 1;
-    for (let i = 0; i < pts.length; i++){
-      const a = pts[i];
-      for (let j = i + 1; j < pts.length; j++){
-        const b = pts[j], dx = a.x - b.x, dy = a.y - b.y, d2 = dx*dx + dy*dy;
-        if (d2 < D2){
-          ctx.strokeStyle = 'rgba(' + a.c + ',' + ((1 - Math.sqrt(d2) / D) * .26).toFixed(3) + ')';
-          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-        }
-      }
-      const mx = mouse.x - a.x, my = mouse.y - a.y, md = mx*mx + my*my;
-      if (md < R2){
-        ctx.strokeStyle = 'rgba(' + a.c + ',' + ((1 - Math.sqrt(md) / R) * .5).toFixed(3) + ')';
-        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
-      }
-    }
-    for (const p of pts){
-      ctx.fillStyle = 'rgba(' + p.c + ',.9)';
-      ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.2832); ctx.fill();
-      if (p.r > 1.5){
-        ctx.fillStyle = 'rgba(' + p.c + ',.12)';
-        ctx.beginPath(); ctx.arc(p.x, p.y, p.r * 5, 0, 6.2832); ctx.fill();
-      }
-    }
-    if (!REDUCED && !document.hidden) raf = requestAnimationFrame(frame);
-  }
-  let rt;
-  window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(() => { size(); if (REDUCED) frame(0); }, 150); });
-  document.addEventListener('visibilitychange', () => {
-    cancelAnimationFrame(raf);
-    if (!document.hidden && !REDUCED){ last = 0; raf = requestAnimationFrame(frame); }
-  });
-
-  // Parallaxe légère + interaction souris
-  let pending = false, px = 0, py = 0;
-  window.addEventListener('pointermove', e => {
-    mouse.x = e.clientX; mouse.y = e.clientY;
-    if (REDUCED || e.pointerType === 'touch') return;
-    px = e.clientX / innerWidth * 2 - 1; py = e.clientY / innerHeight * 2 - 1;
-    if (!pending){
-      pending = true;
-      requestAnimationFrame(() => {
-        stage.style.setProperty('--px', px.toFixed(3));
-        stage.style.setProperty('--py', py.toFixed(3));
-        pending = false;
-      });
-    }
-  }, { passive:true });
-  window.addEventListener('pointerleave', () => { mouse.x = mouse.y = -1e4; });
-
-  size();
-  const go = () => { raf = requestAnimationFrame(frame); };
-  if (document.readyState === 'complete') setTimeout(go, 300); else window.addEventListener('load', () => setTimeout(go, 300), { once:true });
-})();
-</script>
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>

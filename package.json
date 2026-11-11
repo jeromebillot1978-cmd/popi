@@ -1,0 +1,12 @@
+{
+  "name": "chatastrophe-studio",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Générateur de vidéos humoristiques de chats pour TikTok, YouTube Shorts et Instagram Reels",
+  "type": "module",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "dev": "npx vercel dev",
+    "start": "npx serve ."
+  }
+}
