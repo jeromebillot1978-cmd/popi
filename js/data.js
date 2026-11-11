@@ -114,7 +114,7 @@ export const ACCESSORIES = {
 /* ---------- Personnalités ---------- */
 export const PERSONAS = {
   paresseux: {
-    nom: 'Paresseux', emoji: '😴', voix: 'matou', emo: 'dodo', absurde: 3,
+    nom: 'Paresseux', emoji: '😴', voix: 'sarcastique', emo: 'dodo', absurde: 3,
     acc: { tete: 'bonnet_nuit' },
     lignes: [
       "Pause. Ça fait *quatre minutes* que je suis réveillé.",
@@ -123,7 +123,7 @@ export const PERSONAS = {
     ],
   },
   gourmand: {
-    nom: 'Gourmand', emoji: '🍗', voix: 'chaton', emo: 'gourmand', absurde: 3,
+    nom: 'Gourmand', emoji: '🍗', voix: 'chat_drole', emo: 'gourmand', absurde: 3,
     acc: { cou: 'bavoir' },
     lignes: [
       "J'ai mangé il y a *deux minutes*. Je meurs de faim.",
@@ -132,7 +132,7 @@ export const PERSONAS = {
     ],
   },
   jaloux: {
-    nom: 'Jaloux', emoji: '😒', voix: 'diva', emo: 'suspicieux', absurde: 3,
+    nom: 'Jaloux', emoji: '😒', voix: 'theatrale', emo: 'suspicieux', absurde: 3,
     acc: {},
     lignes: [
       "Tu as caressé *un autre chat* ? Je sens son odeur.",
@@ -150,7 +150,7 @@ export const PERSONAS = {
     ],
   },
   criminel: {
-    nom: 'Criminel', emoji: '🕶️', voix: 'mafieux', emo: 'malicieux', absurde: 5,
+    nom: 'Criminel', emoji: '🕶️', voix: 'cowboy', emo: 'malicieux', absurde: 5,
     acc: { visage: 'masque', tete: 'bonnet' },
     lignes: [
       "Tu n'as rien vu. *Je n'étais pas là.*",
@@ -168,7 +168,7 @@ export const PERSONAS = {
     ],
   },
   milliardaire: {
-    nom: 'Milliardaire', emoji: '💎', voix: 'matou', emo: 'fier', absurde: 5,
+    nom: 'Milliardaire', emoji: '💎', voix: 'sarcastique', emo: 'fier', absurde: 5,
     acc: { tete: 'haut_de_forme', visage: 'monocle', cou: 'chaine_or' },
     lignes: [
       "Ma litière est en *or massif*. Logique.",
@@ -177,7 +177,7 @@ export const PERSONAS = {
     ],
   },
   dramatique: {
-    nom: 'Drama queen', emoji: '🎭', voix: 'diva', emo: 'pleure', absurde: 4,
+    nom: 'Drama queen', emoji: '🎭', voix: 'dramatique', emo: 'pleure', absurde: 4,
     acc: {},
     lignes: [
       "Ma gamelle est à moitié vide. *C'est la fin du monde.*",
@@ -186,7 +186,7 @@ export const PERSONAS = {
     ],
   },
   sportif: {
-    nom: 'Sportif', emoji: '💪', voix: 'influenceur', emo: 'fier', absurde: 3,
+    nom: 'Sportif', emoji: '💪', voix: 'presentateur', emo: 'fier', absurde: 3,
     acc: { tete: 'bandeau' },
     lignes: [
       "Échauffement : *trois étirements* et une sieste.",
@@ -204,7 +204,7 @@ export const PERSONAS = {
     ],
   },
   espion: {
-    nom: 'Espion', emoji: '🕵️', voix: 'mafieux', emo: 'suspicieux', absurde: 4,
+    nom: 'Espion', emoji: '🕵️', voix: 'robot', emo: 'suspicieux', absurde: 4,
     acc: { visage: 'lunettes_soleil', cou: 'cravate' },
     lignes: [
       "Mon nom est Chat. *{nom} Chat.*",
@@ -213,7 +213,7 @@ export const PERSONAS = {
     ],
   },
   grincheux: {
-    nom: 'Grincheux', emoji: '😾', voix: 'matou', emo: 'colere', absurde: 3,
+    nom: 'Grincheux', emoji: '😾', voix: 'papy', emo: 'colere', absurde: 3,
     acc: {},
     lignes: [
       "Il est six heures. *Pourquoi tu dors encore* ? Je veux manger.",
@@ -728,34 +728,77 @@ export const BASE_TAGS = ['#chat', '#chatdrole', '#humour', '#pourtoi', '#catsof
 
 /* ---------- Voix ---------- */
 // es = réglages eSpeak (doublage FR gratuit), m = réglages « miaou-parlé », ai = voix IA (OpenAI), rate = accélération finale
-export const VOICE_STYLES = {
-  chaton:      { label: '🐣 Chaton mignon',      es: { variant: 'f5', pitch: 99, speed: 175 }, rate: 1.12, m: { f0: 620, range: 1.5, wave: 'tri' },
-                 ai: { voice: 'shimmer', instr: "Voix de petit chaton très mignon, aiguë, enjouée et un peu capricieuse, en français." } },
-  matou:       { label: '😼 Gros matou blasé',   es: { variant: 'm3', pitch: 12, speed: 140 }, rate: 0.95, m: { f0: 190, range: 1.25, wave: 'saw' },
-                 ai: { voice: 'onyx', instr: "Voix grave de gros chat blasé et paresseux, lente, pleine de mépris, en français." } },
-  diva:        { label: '🎭 Diva dramatique',    es: { variant: 'f2', pitch: 80, speed: 150 }, rate: 1.05, m: { f0: 460, range: 1.9, wave: 'tri' },
-                 ai: { voice: 'coral', instr: "Voix de diva théâtrale ultra dramatique, qui exagère chaque émotion, en français." } },
-  genie:       { label: '🧠 Génie robotique',    es: { variant: 'klatt2', pitch: 55, speed: 165 }, rate: 1.0, m: { f0: 330, range: 1.1, wave: 'square' },
-                 ai: { voice: 'echo', instr: "Voix de petit génie arrogant et très sûr de lui, articulée et rapide, en français." } },
-  mafieux:     { label: '🕶️ Parrain chuchoté',  es: { variant: 'whisper', pitch: 25, speed: 130 }, rate: 0.95, m: { f0: 170, range: 1.15, wave: 'saw' },
-                 ai: { voice: 'ash', instr: "Voix de parrain de la mafia, rauque, lente, menaçante et chuchotée, en français." } },
-  influenceur: { label: '📱 Influenceur surexcité', es: { variant: 'f4', pitch: 75, speed: 200 }, rate: 1.15, m: { f0: 520, range: 1.7, wave: 'tri' },
-                 ai: { voice: 'nova', instr: "Voix d'influenceur surexcité, très rapide, énergique, qui crie presque, en français." } },
+/* ---------- Voix comiques (moteur neuronal Piper + option IA OpenAI) ----------
+ * model/spk : modèle Piper et locuteur · len : débit (plus petit = plus rapide)
+ * pitch : hauteur (le débit est compensé, la vitesse reste celle de « len »)
+ * noise / noiseW : expressivité de l'intonation / variété du rythme
+ * fx : effet vocal léger · ai : voix + consigne pour l'option IA premium
+ */
+export const VOICE_MODELS = {
+  siwis: { label: 'Siwis (voix féminine)', mb: 63 },
+  tom:   { label: 'Tom (voix masculine)', mb: 64 },
+  upmc:  { label: 'UPMC (Jessica & Pierre)', mb: 77 },
 };
 
-export const NARRATOR_STYLES = {
-  narrateur: { label: '🎙️ Narrateur documentaire', es: { variant: 'm1', pitch: 38, speed: 185 }, rate: 1.0,
-               ai: { voice: 'fable', instr: "Narrateur de documentaire animalier, sérieux et solennel, en français." } },
-  humain:    { label: '👤 Humain dépassé', es: { variant: 'f1', pitch: 60, speed: 185 }, rate: 1.0,
-               ai: { voice: 'sage', instr: "Voix d'humain fatigué et dépassé par son chat, naturelle, en français." } },
+export const VOICES = {
+  narrateur_tiktok: { emoji: '😂', label: 'Narrateur TikTok', g: 'f', model: 'siwis', spk: 0, len: 0.84, pitch: 1.04, noise: 0.62, noiseW: 0.7, fx: 'tiktok',
+    desc: 'La voix « TikTok » : claire, rapide, ultra lisible.', sample: "POV : ton chat vient de découvrir *la carte bleue*.",
+    ai: { voice: 'nova', instr: "Voix off TikTok française typique : claire, rapide, enjouée, légèrement moqueuse, phrases punchy." } },
+  chat_drole: { emoji: '😹', label: 'Chat drôle', g: 'f', model: 'siwis', spk: 0, len: 0.9, pitch: 1.42, noise: 0.75, noiseW: 0.85, fx: 'chat',
+    desc: 'Petite voix de chat capricieux, aiguë et espiègle.', sample: "Miaou. Les croquettes, c'est *maintenant*, humain.",
+    ai: { voice: 'shimmer', instr: "Voix de petit chat capricieux et espiègle, aiguë, très expressive, qui ronronne un peu à la fin des phrases." } },
+  folle: { emoji: '🤪', label: 'Voix complètement folle', g: 'f', model: 'siwis', spk: 0, len: 0.8, pitch: 1.2, noise: 0.95, noiseW: 1.1, fx: 'folle',
+    desc: 'Intonation qui part dans tous les sens, énergie maximale.', sample: "J'ai mangé *le canapé*. Et j'en veux encore !",
+    ai: { voice: 'coral', instr: "Voix complètement folle et hystérique, intonations imprévisibles, rires nerveux, montées soudaines dans les aigus." } },
+  sarcastique: { emoji: '😎', label: 'Voix sarcastique', g: 'm', model: 'tom', spk: 0, len: 0.9, pitch: 0.96, noise: 0.45, noiseW: 0.6, fx: 'proche',
+    desc: 'Pince-sans-rire, posé, blasé : chaque phrase est une pique.', sample: "Oh, bravo. Tu as encore *oublié mes croquettes*. Génial.",
+    ai: { voice: 'ash', instr: "Voix masculine sarcastique et blasée, pince-sans-rire, ton faussement poli, petites pauses ironiques." } },
+  theatrale: { emoji: '🎭', label: 'Voix théâtrale exagérée', g: 'm', model: 'tom', spk: 0, len: 0.97, pitch: 1.06, noise: 0.8, noiseW: 0.9, fx: 'theatre',
+    desc: 'Comédien de théâtre classique qui en fait des tonnes.', sample: "Ô rage ! Ô désespoir ! *Ma gamelle est vide* !",
+    ai: { voice: 'ballad', instr: "Comédien de théâtre classique extrêmement exagéré et grandiloquent, déclame chaque phrase comme une tragédie." } },
+  genie: { emoji: '🧠', label: 'Génie absurde', g: 'm', model: 'tom', spk: 0, len: 0.86, pitch: 1.1, noise: 0.7, noiseW: 0.8, fx: 'genie',
+    desc: 'Savant très sûr de lui qui explique des théories absurdes.', sample: "Selon mes calculs, le laser rouge est *une conspiration*.",
+    ai: { voice: 'echo', instr: "Petit génie arrogant et très sûr de lui, débit rapide, ton de conférence scientifique pour dire des absurdités." } },
+  meme: { emoji: '🐸', label: 'Voix mème internet', g: 'f', model: 'siwis', spk: 0, len: 0.8, pitch: 1.3, noise: 0.8, noiseW: 0.9, fx: 'meme',
+    desc: 'Voix saturée et accélérée façon mème, basse renforcée.', sample: "C'est *pas possible*. Mon chat a piraté le Wi-Fi.",
+    ai: { voice: 'fable', instr: "Voix de mème internet, très rapide, exagérée, un peu absurde, comme une vidéo virale." } },
+  cowboy: { emoji: '🤠', label: 'Cowboy déjanté', g: 'm', model: 'tom', spk: 0, len: 0.92, pitch: 0.84, noise: 0.8, noiseW: 0.9, fx: 'cowboy',
+    desc: 'Shérif du Far West sur une vieille radio de saloon.', sample: "Cette ville est trop petite pour *deux chats*, partenaire.",
+    ai: { voice: 'ash', instr: "Cowboy déjanté du Far West qui parle français avec un accent traînant, voix rauque, très théâtral et drôle." } },
+  mamie: { emoji: '👵', label: 'Mamie drôle', g: 'f', model: 'upmc', spk: 0, len: 0.98, pitch: 1.1, noise: 0.8, noiseW: 0.9, fx: 'mamie',
+    desc: 'Grand-mère adorable et un peu tremblante.', sample: "Oh mon petit chat… *tu as encore grossi*, hein !",
+    ai: { voice: 'sage', instr: "Mamie française adorable et drôle, voix légèrement tremblante et chevrotante, très expressive." } },
+  papy: { emoji: '👴', label: 'Papy grincheux', g: 'm', model: 'upmc', spk: 1, len: 0.98, pitch: 0.84, noise: 0.7, noiseW: 0.8, fx: 'papy',
+    desc: 'Vieux râleur qui grogne contre tout.', sample: "De mon temps, les chats *chassaient des souris* !",
+    ai: { voice: 'onyx', instr: "Papy français grincheux et râleur, voix âgée et grave, grommelle et soupire, très drôle." } },
+  robot: { emoji: '🤖', label: 'Robot humoristique', g: 'm', model: 'tom', spk: 0, len: 0.88, pitch: 1.0, noise: 0.2, noiseW: 0.3, fx: 'robot',
+    desc: 'Robot métallique et monotone… avec des bugs.', sample: "Analyse terminée. Ce chat est *à cent pour cent paresseux*.",
+    ai: { voice: 'alloy', instr: "Robot humoristique, voix monotone et mécanique, articule chaque syllabe, avec une pointe d'ironie." } },
+  perroquet: { emoji: '🦜', label: 'Perroquet bavard', g: 'f', model: 'siwis', spk: 0, len: 0.84, pitch: 1.45, noise: 0.85, noiseW: 1.0, fx: 'perroquet',
+    desc: 'Aigu, nasillard, criard : le perroquet qui répète tout.', sample: "Coco veut *un croissant* ! Coco veut un croissant !",
+    ai: { voice: 'coral', instr: "Perroquet bavard qui parle français, voix très aiguë, nasillarde et criarde, débit rapide." } },
+  influenceur: { emoji: '🎤', label: 'Influenceur surexcité', g: 'f', model: 'upmc', spk: 0, len: 0.8, pitch: 1.14, noise: 0.85, noiseW: 0.95, fx: 'influenceur',
+    desc: 'Coucou la team ! Énergie à fond, débit rapide.', sample: "Coucou la team ! Aujourd'hui, *routine beauté du chat* !",
+    ai: { voice: 'nova', instr: "Influenceuse surexcitée, débit très rapide, énergie maximale, s'extasie sur tout, presque en criant." } },
+  dramatique: { emoji: '😱', label: 'Voix dramatique extrême', g: 'm', model: 'tom', spk: 0, len: 0.98, pitch: 0.84, noise: 0.75, noiseW: 0.85, fx: 'drame',
+    desc: 'Bande-annonce de film catastrophe, grave et épique.', sample: "Ce jour-là… *personne n'était prêt*.",
+    ai: { voice: 'onyx', instr: "Voix de bande-annonce de film catastrophe, très grave, lente, épique et dramatique à l'extrême." } },
+  presentateur: { emoji: '🚀', label: 'Présentateur énergique', g: 'm', model: 'upmc', spk: 1, len: 0.82, pitch: 1.04, noise: 0.75, noiseW: 0.85, fx: 'radio',
+    desc: 'Animateur radio / jeu télé, dynamique et souriant.', sample: "Et c'est parti pour *le grand quiz des croquettes* !",
+    ai: { voice: 'verse', instr: "Présentateur de jeu télé très énergique et enthousiaste, débit rapide, sourire dans la voix." } },
+};
+
+/* Rôles parlants d'une vidéo */
+export const VOICE_ROLES = {
+  chat:      { emoji: '😺', label: 'Le chat' },
+  narrateur: { emoji: '🎙️', label: 'Le narrateur' },
+  humain:    { emoji: '🧍', label: "L'humain" },
 };
 
 export const VOICE_ENGINES = {
-  miaou:      { label: '🐾 Miaou-parlé + narrateur FR (gratuit, exporté)', export: true },
-  espeak:     { label: '🗣️ Doublage FR synthétique (gratuit, exporté)', export: true },
-  ia:         { label: '✨ Doublage FR IA premium (clé API, exporté)', export: true, needsApi: 'tts' },
-  navigateur: { label: '🌐 Voix du navigateur (aperçu uniquement)', export: false },
-  aucune:     { label: '🔇 Sans voix (sous-titres seuls)', export: true },
+  piper: { label: '🧠 Voix neuronales gratuites (dans le navigateur)', export: true },
+  ia:    { label: '✨ Voix IA premium OpenAI (clé API requise)', export: true, needsApi: 'tts' },
+  aucune:{ label: '🔇 Sans voix (sous-titres seuls)', export: true },
 };
 
 /* ---------- Musiques ---------- */

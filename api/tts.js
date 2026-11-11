@@ -13,8 +13,8 @@ export default async function handler(req, res) {
   const text = String(body.text || '').slice(0, 400).trim();
   if (!text) return send(res, 400, { error: 'Texte vide' });
   const voice = VOICES.includes(body.voice) ? body.voice : 'coral';
-  const instructions = String(body.instructions || 'Voix expressive et drôle, en français.').slice(0, 300);
-  const speed = Math.min(1.5, Math.max(0.8, Number(body.speed) || 1));
+  const instructions = String(body.instructions || 'Voix expressive et drôle, en français.').slice(0, 600);
+  const speed = Math.min(1.6, Math.max(0.7, Number(body.speed) || 1));
 
   try {
     const r = await fetch('https://api.openai.com/v1/audio/speech', {

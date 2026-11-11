@@ -3,10 +3,11 @@
  */
 import {
   CONCEPTS, CATEGORIES, PERSONAS, FURS, ACCESSORIES, EMOTIONS, SFX, MEMES, CAMERAS, SCENES,
-  VOICE_STYLES, VOICE_ENGINES, MUSICS,
+  VOICES, VOICE_ROLES, VOICE_ENGINES, VOICE_MODELS, MUSICS,
 } from './data.js';
 import { generateLocal, normalizeProject, newId, plain, getConcept } from './story.js';
-import { prepareVoices, buildTimeline, speakBrowser } from './voice.js';
+import { prepareVoices, buildTimeline, sampleVoice, onModelProgress, voiceCacheInfo, clearModelCache, clearVoiceCache } from './voice.js';
+import { resolveCast } from './casting.js';
 import { audio } from './audio.js';
 import { Renderer } from './render.js';
 import { clearSceneCache } from './scenes.js';
@@ -20,12 +21,17 @@ const saved = (() => { try { return JSON.parse(localStorage.getItem(LS) || '{}')
 const state = {
   sel: { mode: 'lib', conceptId: 'president', freeTopic: '', cat: 'tous', ...(saved.sel || {}) },
   look: { nom: 'Moustache', fur: 'roux', personaId: 'milliardaire', personaTouched: false, acc: { tete: 'auto', visage: 'auto', cou: 'auto' }, longueur: 'moyen', ...(saved.look || {}) },
-  settings: { engine: 'miaou', catVoice: 'matou', voiceTouched: false, music: 'comedie', viral: true, loop: true, subMode: 'groupe', quality: '720', handle: '', scriptEngine: 'local', ...(saved.settings || {}) },
+  settings: { engine: 'piper', autoVoice: true, voices: { chat: 'auto', narrateur: 'auto' }, voiceRole: 'chat', accent: true, music: 'comedie', viral: true, loop: true, subMode: 'groupe', quality: '720', handle: '', scriptEngine: 'local', ...(saved.settings || {}) },
   project: saved.project || null,
-  tl: null, analysis: null, video: null, api: { generate: false, tts: false },
+  tl: null, analysis: null, cast: null, api: { generate: false, tts: false },
   best: Number(localStorage.getItem(LS + ':best') || 0),
   token: 0,
 };
+
+// Migration : l'ancien moteur (miaou / eSpeak / voix du navigateur) n'existe plus
+if (!VOICE_ENGINES[state.settings.engine]) state.settings.engine = 'piper';
+if (!state.settings.voices || typeof state.settings.voices !== 'object') state.settings.voices = { chat: 'auto', narrateur: 'auto' };
+delete state.settings.catVoice; delete state.settings.voiceTouched;
 
 /* ====================== DOM ====================== */
 const $ = (id) => document.getElementById(id);
@@ -82,21 +88,73 @@ function buildLook() {
 }
 
 function buildVoice() {
-  $('voiceEngine').innerHTML = Object.entries(VOICE_ENGINES).map(([k, v]) => `<option value="${k}"${k === state.settings.engine ? ' selected' : ''}${v.needsApi && !state.api[v.needsApi] ? ' disabled' : ''}>${esc(v.label)}</option>`).join('');
-  $('catVoice').innerHTML = options(VOICE_STYLES, state.settings.catVoice);
-  $('music').innerHTML = options(MUSICS, state.settings.music);
-  voiceHint();
+  const st = state.settings;
+  $('voiceEngine').innerHTML = Object.entries(VOICE_ENGINES).map(([k, v]) => `<option value="${k}"${k === st.engine ? ' selected' : ''}${v.needsApi && !state.api[v.needsApi] ? ' disabled' : ''}>${esc(v.label)}</option>`).join('');
+  $('autoVoice').checked = st.autoVoice;
+  $('accentMode').checked = st.accent !== false;
+  $('music').innerHTML = options(MUSICS, st.music);
+  $('roleTabs').innerHTML = ['chat', 'narrateur'].map(r => `<button type="button" role="tab" class="chip${r === st.voiceRole ? ' active' : ''}" data-role="${r}" aria-selected="${r === st.voiceRole}">${VOICE_ROLES[r].emoji} Voix ${r === 'chat' ? 'du chat' : 'du narrateur'}</button>`).join('');
+  $('voiceGrid').innerHTML = Object.entries(VOICES).map(([id, v]) => `<div class="vcard" role="option" tabindex="0" data-voice="${id}" title="${esc(v.desc)}">
+      <span class="ve">${v.emoji}</span><span class="vl"><b>${esc(v.label)}</b><small>${esc(v.desc)}</small></span>
+      <button type="button" class="vplay" data-play="${id}" aria-label="Écouter ${esc(v.label)}">▶</button>
+    </div>`).join('');
+  voiceHint(); renderCast();
+}
+function effEngine() { return state.settings.engine === 'ia' && !state.api.tts ? 'piper' : state.settings.engine; }
+/** Voix effectives (auto ou manuelles) + mise en avant dans la grille. */
+function renderCast() {
+  const st = state.settings;
+  const proj = state.project && state.project.beats ? state.project : null;
+  const r = proj ? resolveCast(proj, st) : null;
+  const cast = r ? r.cast : null;
+  const role = st.voiceRole;
+  const manual = st.voices[role];
+  const current = cast ? cast[role] : (manual && manual !== 'auto' ? manual : null);
+  document.querySelectorAll('.vcard').forEach(c => {
+    const on = c.dataset.voice === current;
+    c.classList.toggle('active', on); c.setAttribute('aria-selected', on);
+    c.classList.toggle('auto', on && (st.autoVoice || !manual || manual === 'auto'));
+  });
+  document.querySelectorAll('#roleTabs [data-role]').forEach(b => { const on = b.dataset.role === role; b.classList.toggle('active', on); b.setAttribute('aria-selected', on); });
+  if (!cast) { $('castBox').innerHTML = '<span class="muted">🎬 Génère une vidéo : le casting des voix s’affichera ici.</span>'; return; }
+  const roles = ['chat', 'narrateur', 'humain'].filter(k => proj.beats.some(b => (b.s === 'chat' ? 'chat' : b.s === 'humain' ? 'humain' : 'narrateur') === k));
+  $('castBox').innerHTML = roles.map(k => {
+    const v = VOICES[cast[k]]; const isAuto = st.autoVoice || k === 'humain' || !st.voices[k] || st.voices[k] === 'auto';
+    return `<div class="castline"><span>${VOICE_ROLES[k].emoji} ${VOICE_ROLES[k].label}</span><b>${v.emoji} ${esc(v.label)}</b>${isAuto ? `<em>🎯 ${esc(r.auto.why[k] || 'choix auto')}</em>` : '<em>✋ choisie par toi</em>'}</div>`;
+  }).join('');
 }
 function voiceHint() {
   const e = state.settings.engine;
   const hints = {
-    miaou: '🐾 Le chat « parle » en miaous synchronisés avec les sous-titres (format très viral), le narrateur et les humains sont doublés en français.',
-    espeak: '🗣️ Tout est doublé en français avec une voix synthétique rigolote, modulée selon le style choisi. 100 % gratuit et inclus dans la vidéo exportée.',
-    ia: '✨ Voix françaises réalistes générées par IA (clé OpenAI requise côté serveur). Incluses dans la vidéo exportée.',
-    navigateur: '🌐 Les voix de ton navigateur sont plus naturelles, mais elles ne peuvent pas être enregistrées : à l’export, le doublage FR synthétique est utilisé.',
+    piper: '🧠 Voix neuronales françaises (Piper), fluides et naturelles, calculées dans ton navigateur : gratuites, sans compte, incluses dans la vidéo. Au premier usage d’une voix, son modèle est téléchargé une seule fois (63 à 77 Mo), ensuite tout est instantané.',
+    ia: '✨ Voix OpenAI ultra-expressives : chaque voix comique reçoit une consigne de jeu (accent, émotion, rythme). Clé OPENAI_API_KEY requise sur Vercel. En cas de souci, bascule automatique sur les voix neuronales gratuites.',
     aucune: '🔇 Pas de voix : seulement musique, bruitages et sous-titres (style « vidéo muette »).',
   };
   $('voiceHint').textContent = hints[e] || '';
+  refreshVoiceCache();
+}
+async function refreshVoiceCache() {
+  if (state.settings.engine !== 'piper') { $('voiceCache').innerHTML = ''; return; }
+  try {
+    const info = await voiceCacheInfo();
+    if (!info.bytes) { $('voiceCache').textContent = '💾 Aucune voix téléchargée pour l’instant.'; return; }
+    $('voiceCache').innerHTML = `💾 Voix gardées dans ce navigateur : ${(info.bytes / 1048576).toFixed(0)} Mo (${info.models.map(m => VOICE_MODELS[m] ? VOICE_MODELS[m].label : m).join(', ')}) · <button type="button" class="linkbtn" id="btnClearVoices">Libérer l’espace</button>`;
+    $('btnClearVoices').onclick = async () => { await clearModelCache(); toast('🧹 Voix supprimées du navigateur (re-téléchargées si besoin).', 'ok'); refreshVoiceCache(); };
+  } catch (e) { $('voiceCache').textContent = ''; }
+}
+
+async function previewVoice(id, btn) {
+  if (btn.classList.contains('loading')) return;
+  audio.ensure();
+  if (player.playing) { player.stop(); setPlayIcon(false); }
+  btn.classList.add('loading'); btn.textContent = '…';
+  try {
+    const engine = effEngine() === 'aucune' ? 'piper' : effEngine();
+    const r = await sampleVoice(id, engine);
+    if (r && r.buffer) { const ses = audio.openSession(); audio.playBuffer(r.buffer, audio.now + 0.05, ses.voice); }
+  } catch (e) { toast(`Voix indisponible : ${e.message}`, 'err'); }
+  busy(false);
+  btn.classList.remove('loading'); btn.textContent = '▶';
 }
 
 function buildSettings() {
@@ -115,7 +173,8 @@ function updateSummaries() {
   $('ideaSummary').textContent = state.sel.mode === 'free' ? `Mon chat ${state.sel.freeTopic || '…'}` : (c ? c.titre : '—');
   const p = PERSONAS[state.look.personaId];
   $('catSummary').textContent = `${state.look.nom} · ${p.emoji} ${p.nom}`;
-  $('voiceSummary').textContent = `${VOICE_STYLES[state.settings.catVoice].label} · ${MUSICS[state.settings.music].label}`;
+  const vs = state.settings.voices[state.settings.voiceRole];
+  $('voiceSummary').textContent = state.settings.engine === 'aucune' ? '🔇 Sans voix' : state.settings.autoVoice || !VOICES[vs] ? '🎯 Casting auto' : `${VOICES[vs].emoji} ${VOICES[vs].label}`;
   $('viralSummary').textContent = state.settings.viral ? '🔥 Mode viral ON' : 'Mode viral OFF';
 }
 
@@ -163,9 +222,28 @@ function bind() {
   [['accTete', 'tete'], ['accVisage', 'visage'], ['accCou', 'cou']].forEach(([id, slot]) => { $(id).onchange = e => { state.look.acc[slot] = e.target.value; redrawLook(); save(); }; });
 
   $('voiceEngine').onchange = e => { state.settings.engine = e.target.value; voiceHint(); updateSummaries(); if (state.project) rebuild(); save(); };
-  $('catVoice').onchange = e => { state.settings.catVoice = e.target.value; state.settings.voiceTouched = true; updateSummaries(); if (state.project) rebuild(); save(); };
+  $('autoVoice').onchange = e => { state.settings.autoVoice = e.target.checked; renderCast(); updateSummaries(); if (state.project) rebuild(); save(); };
+  $('accentMode').onchange = e => { state.settings.accent = e.target.checked; if (state.project) rebuild(); save(); };
+  $('roleTabs').onclick = e => { const b = e.target.closest('[data-role]'); if (!b) return; state.settings.voiceRole = b.dataset.role; renderCast(); updateSummaries(); save(); };
+  const pickVoice = (card) => {
+    const st = state.settings;
+    st.voices[st.voiceRole] = card.dataset.voice;
+    if (st.autoVoice) { st.autoVoice = false; $('autoVoice').checked = false; toast('✋ Casting manuel : ta voix est utilisée (réactive le mode auto quand tu veux).'); }
+    renderCast(); updateSummaries(); save();
+    if (state.project) rebuild();
+  };
+  $('voiceGrid').addEventListener('click', e => {
+    const play = e.target.closest('[data-play]');
+    if (play) { e.stopPropagation(); previewVoice(play.dataset.play, play); return; }
+    const card = e.target.closest('.vcard'); if (card) pickVoice(card);
+  });
+  $('voiceGrid').addEventListener('keydown', e => { const card = e.target.closest('.vcard'); if (card && (e.key === 'Enter' || e.key === ' ') && !e.target.closest('[data-play]')) { e.preventDefault(); pickVoice(card); } });
   $('music').onchange = e => { state.settings.music = e.target.value; updateSummaries(); save(); };
-  $('btnTestVoice').onclick = testVoice;
+  onModelProgress((model, loaded, total) => {
+    const m = VOICE_MODELS[model];
+    busy(true, `⬇️ Téléchargement de la voix ${m ? m.label : model} — une seule fois — ${Math.round(loaded / total * 100)} %`, loaded / total);
+    if (loaded >= total) setTimeout(refreshVoiceCache, 1500);
+  });
 
   $('viralMode').onchange = e => { state.settings.viral = e.target.checked; updateSummaries(); if (state.project) { state.project.viral = e.target.checked; rebuild(); } save(); };
   $('loopMode').onchange = e => { state.settings.loop = e.target.checked; if (state.project) { state.project.loop = e.target.checked; rebuild(); } save(); };
@@ -190,11 +268,17 @@ function bind() {
   // Publication
   ['pubTitle', 'pubDesc', 'pubTags', 'pubOverlay'].forEach(id => $(id).addEventListener('input', onPubEdit));
   $('btnCopyAll').onclick = () => copy(`${$('pubDesc').value}\n\n${$('pubTags').value}`);
-  $('btnDlVideo').onclick = downloadVideo;
+  $('btnDlVideo').onclick = exportVideo;
   $('btnDlSrt').onclick = () => download(new Blob([makeSrt()], { type: 'text/plain' }), `${slug()}.srt`);
   $('btnDlTxt').onclick = () => download(new Blob([makeTxt()], { type: 'text/plain' }), `${slug()}-script.txt`);
 
+  // Export : onglet masqué = enregistrement saccadé → on l'arrête et on le relance au retour
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && state.recording) { state.restartExport = true; player.stop(); }
+    else if (!document.hidden && state.restartExport && !state.exporting) { state.restartExport = false; toast('🔁 Te revoilà : l’export reprend depuis le début.'); exportVideo(); }
+  });
   document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && state.recording) { state.cancelExport = true; player.stop(); return; }
     if (e.code === 'Space' && !/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName) && state.tl) { e.preventDefault(); togglePlay(); }
   });
 }
@@ -202,7 +286,6 @@ function bind() {
 function selectPersona(id, touched) {
   state.look.personaId = id;
   if (touched) state.look.personaTouched = true;
-  if (!state.settings.voiceTouched) { state.settings.catVoice = PERSONAS[id].voix; $('catVoice').value = state.settings.catVoice; }
   document.querySelectorAll('[data-persona]').forEach(b => b.classList.toggle('active', b.dataset.persona === id));
   updateSummaries(); redrawLook(); save();
 }
@@ -267,7 +350,6 @@ async function generate(reroll = false) {
   proj.viral = state.settings.viral; proj.loop = state.settings.loop;
   proj.fur = state.look.fur;
   state.project = proj;
-  state.video = null; $('btnDlVideo').disabled = true;
   renderBeats(); renderPub();
   $('btnReroll').disabled = false;
   await rebuild({ autoplay: true, fresh: true });
@@ -281,14 +363,14 @@ async function rebuild({ autoplay = false, seekTo = null, fresh = false } = {}) 
   Object.assign(p, { fur: state.look.fur, acc: resolvedAcc(), nom: state.look.nom, viral: state.settings.viral, loop: state.settings.loop });
   const t0 = performance.now();
   const showBusy = setTimeout(() => busy(true, '🎙️ Doublage des voix…', 0.2), fresh ? 0 : 300);
-  const engine = state.settings.engine === 'ia' && !state.api.tts ? 'espeak' : state.settings.engine;
   let res;
   try {
-    res = await prepareVoices(p, { ...state.settings, engine }, (i, n) => { if (token === state.token) busy(null, `🎙️ Doublage des voix… ${i}/${n}`, 0.2 + 0.75 * (i / n)); });
+    res = await prepareVoices(p, { ...state.settings, engine: effEngine() }, (i, n) => { if (token === state.token) busy(true, `🎙️ Doublage des voix… ${i}/${n}`, 0.2 + 0.75 * (i / n)); });
   } catch (e) { clearTimeout(showBusy); busy(false); status(`Erreur voix : ${e.message}`, 'err'); return; }
   clearTimeout(showBusy);
   if (token !== state.token) return;
-  if (res.warning) toast(`⚠️ ${res.warning} — voix de secours utilisée.`, 'err');
+  if (res.warning) toast(`⚠️ ${res.warning}`, 'err');
+  renderCast();
   const tl = buildTimeline(p, res.voices);
   state.tl = tl;
   cancelAnimationFrame(idleRaf);
@@ -298,7 +380,7 @@ async function rebuild({ autoplay = false, seekTo = null, fresh = false } = {}) 
   busy(false);
   renderViral(prevScore, fresh);
   updateBeatMeta();
-  ['btnPlay', 'scrub', 'btnExport', 'btnDlSrt', 'btnDlTxt', 'btnFixAll'].forEach(id => { $(id).disabled = false; });
+  ['btnPlay', 'scrub', 'btnExport', 'btnDlVideo', 'btnDlSrt', 'btnDlTxt', 'btnFixAll'].forEach(id => { $(id).disabled = false; });
   $('btnAddBeat').hidden = false;
   status(`✅ Vidéo prête : ${tl.beats.length} séquences · ${tl.duration.toFixed(1)} s · ${(performance.now() - t0).toFixed(0)} ms`, 'ok');
   save();
@@ -404,70 +486,49 @@ function play(from) {
 function togglePlay() { if (player.playing) { player.stop(); setPlayIcon(false); } else play(player.t >= state.tl.duration - 0.1 ? 0 : player.t); }
 function setPlayIcon(on) { $('btnPlay').textContent = on ? '⏸' : '▶'; $('btnPlay').setAttribute('aria-label', on ? 'Pause' : 'Lecture'); }
 
-async function testVoice() {
-  audio.ensure();
-  const beat = { id: 'test', role: 'setup', s: 'chat', t: `Miaou ! Je suis ${state.look.nom}, et ici, *c'est moi le patron*.`, e: 'fier', sc: 'salon' };
-  if (state.settings.engine === 'navigateur') { speechSynthesis.cancel(); speakBrowser(beat, state.settings, state.settings.viral); return; }
-  if (state.settings.engine === 'aucune') { toast('🔇 Doublage désactivé.'); return; }
-  $('btnTestVoice').disabled = true;
-  try {
-    const engine = state.settings.engine === 'ia' && !state.api.tts ? 'espeak' : state.settings.engine;
-    const { voices, warning } = await prepareVoices({ beats: [beat], viral: state.settings.viral }, { ...state.settings, engine });
-    if (warning) toast(`⚠️ ${warning}`, 'err');
-    const v = voices[0];
-    if (v.buffer) { const ses = audio.openSession(); audio.playBuffer(v.buffer, audio.now + 0.05, ses.voice, v.rate); }
-  } catch (e) { toast(`Voix indisponible : ${e.message}`, 'err'); }
-  $('btnTestVoice').disabled = false;
-}
-
 /* ====================== Export ====================== */
 async function exportVideo() {
   if (!state.tl || state.exporting) return;
   if (!bestMime()) { toast("Ton navigateur ne sait pas exporter la vidéo. Utilise Chrome ou Edge sur ordinateur.", 'err'); return; }
   audio.ensure();
   player.stop();
-  state.exporting = true;
-  ['btnExport', 'btnGenerate', 'btnPlay', 'scrub'].forEach(id => { $(id).disabled = true; });
-  let tl = state.tl;
-  let settings = state.settings;
+  state.exporting = true; state.cancelExport = false; state.restartExport = false;
+  ['btnExport', 'btnGenerate', 'btnPlay', 'scrub', 'btnDlVideo'].forEach(id => { $(id).disabled = true; });
+  let res = null;
   try {
-    if (settings.engine === 'navigateur' || (settings.engine === 'ia' && !state.api.tts)) {
-      toast('🗣️ Export avec le doublage FR synthétique (les voix du navigateur ne s’enregistrent pas).');
-      settings = { ...settings, engine: 'espeak' };
-      busy(true, '🎙️ Doublage pour l’export…', 0.1);
-      const { voices } = await prepareVoices(state.project, settings);
-      tl = buildTimeline(state.project, voices);
-      player.load(tl, lookProject());
-    }
-    const q = Number(settings.quality);
+    const q = Number(state.settings.quality);
     if (q !== 720) { renderer.setQuality(q); clearSceneCache(); }
-    busy(true, '🔴 Enregistrement… garde cet onglet ouvert', 0);
+    busy(true, '🔴 Enregistrement… garde cet onglet affiché (Échap = annuler)', 0);
     $('busy').style.background = 'rgba(20,10,25,.35)';
-    const res = await player.play({ record: true, from: 0, settings });
-    if (!res) throw new Error('Enregistrement interrompu');
-    const url = URL.createObjectURL(res.blob);
-    if (state.video) URL.revokeObjectURL(state.video.url);
-    state.video = { url, ext: res.ext, blob: res.blob };
-    $('btnDlVideo').disabled = false;
-    downloadVideo();
-    toast(`🎉 Vidéo exportée (${res.ext.toUpperCase()}, ${(res.blob.size / 1048576).toFixed(1)} Mo)`, 'gold');
-    if (res.ext === 'webm') toast('ℹ️ Format WebM : accepté par YouTube. Pour TikTok/Instagram, Chrome récent exporte en MP4.', '');
-    status('✅ Vidéo exportée. Onglet « Publier » pour le titre et les hashtags.', 'ok');
+    state.recording = true;
+    res = await player.play({ record: true, from: 0, settings: state.settings });
+    state.recording = false;
+    if (!res) {
+      if (state.restartExport) { status('⏸️ Export en pause : l’onglet a été masqué. Il reprendra tout seul à ton retour.', ''); return; }
+      if (state.cancelExport) { toast('Export annulé.'); status('Export annulé.', ''); return; }
+      throw new Error('Enregistrement interrompu');
+    }
+    // Un seul fichier : la vidéo finale. Rien n'est gardé ensuite (ni copie, ni morceaux, ni URL).
+    download(res.blob, `${slug()}.${res.ext}`);
+    const mb = (res.blob.size / 1048576).toFixed(1);
+    res = null;
+    clearVoiceCache(); // rendus vocaux intermédiaires libérés (la vidéo en cours reste jouable)
+    toast(`🎉 Vidéo téléchargée (${mb} Mo)`, 'gold');
+    status('✅ Vidéo téléchargée. Onglet « Publier » pour le titre et les hashtags.', 'ok');
     switchTab('pub');
   } catch (e) {
     status(`❌ Export impossible : ${e.message}`, 'err');
     toast(`Export impossible : ${e.message}`, 'err');
   } finally {
+    state.recording = false;
     $('busy').style.background = '';
     busy(false);
     if (renderer.canvas.width !== 720) { renderer.setQuality(720); clearSceneCache(); }
-    if (tl !== state.tl) player.load(state.tl, lookProject());
     state.exporting = false;
-    ['btnExport', 'btnGenerate', 'btnPlay', 'scrub'].forEach(id => { $(id).disabled = false; });
+    ['btnExport', 'btnGenerate', 'btnPlay', 'scrub', 'btnDlVideo'].forEach(id => { $(id).disabled = false; });
     player.draw(0);
   }
 }
-function downloadVideo() { if (state.video) download(state.video.blob, `${slug()}.${state.video.ext}`); }
 function download(blob, name) {
   const a = el('a', { href: URL.createObjectURL(blob), download: name });
   document.body.appendChild(a); a.click(); a.remove();
@@ -624,7 +685,7 @@ async function checkApi() {
     const s = await fetchJson('/api/status', null, 2500);
     state.api = { generate: !!s.generate, tts: !!s.tts };
   } catch (e) { state.api = { generate: false, tts: false }; }
-  if (!state.api.tts && state.settings.engine === 'ia') state.settings.engine = 'espeak';
+  if (!state.api.tts && state.settings.engine === 'ia') state.settings.engine = 'piper';
   buildVoice(); buildSettings();
 }
 
@@ -638,7 +699,5 @@ async function start() {
     renderBeats(); renderPub(); $('btnReroll').disabled = false;
     rebuild().catch(() => {});
   }
-  // Précharge la voix FR en tâche de fond (mise en cache navigateur)
-  if (['miaou', 'espeak'].includes(state.settings.engine)) setTimeout(() => import('./voice.js').then(m => m.loadEspeak()).catch(() => {}), 1500);
 }
 start();

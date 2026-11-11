@@ -1,16 +1,22 @@
 /**
  * Lecteur : synchronise rendu canvas + audio (horloge Web Audio),
- * et exporte la vidéo (MediaRecorder, MP4 si le navigateur le permet, sinon WebM).
+ * et exporte la vidéo.
+ *
+ * Export = même système que les clips PubDev / ancien Popi qui fonctionnent :
+ * MediaRecorder, MP4 (H.264 avc3 puis avc1 + AAC) si le navigateur le permet,
+ * sinon WebM, 8 Mb/s, un seul fichier final. Seule différence : on enregistre
+ * directement le canvas 1080×1920 (pas besoin de partager l'onglet, pas de bord).
  */
 import { audio } from './audio.js';
-import { speakBrowser } from './voice.js';
 
 const MIME_CANDIDATES = [
+  // avc3 : accepte un changement de taille en cours d'enregistrement sans abîmer la vidéo
+  'video/mp4;codecs=avc3.640028,mp4a.40.2',
+  'video/mp4;codecs=avc3.42E01E,mp4a.40.2',
+  'video/mp4;codecs=avc3,opus',
   'video/mp4;codecs=avc1.640028,mp4a.40.2',
-  'video/mp4;codecs=avc1.4D401F,mp4a.40.2',
-  'video/mp4;codecs=avc1.42E01F,mp4a.40.2',
-  'video/mp4;codecs=avc1,mp4a.40.2',
-  'video/mp4;codecs=avc3.42E01F,mp4a.40.2',
+  'video/mp4;codecs=avc1.42E01E,mp4a.40.2',
+  'video/mp4;codecs=avc1,opus',
   'video/mp4',
   'video/webm;codecs=vp9,opus',
   'video/webm;codecs=vp8,opus',
@@ -56,9 +62,6 @@ export class Player {
         src.start(t0 + b.start + rel, rel * (v.rate || 1));
         audio.track(src);
         duck.push([t0 + b.start, t0 + b.start + v.dur]);
-      } else if (settings && settings.engine === 'navigateur' && !record && b.start >= from - 0.05) {
-        const ms = (t0 + b.start - ctx.currentTime) * 1000;
-        this.timers.push(setTimeout(() => { if (this.playing) { speechSynthesis.cancel(); speakBrowser(b, settings, this.project.viral); } }, Math.max(0, ms)));
       }
     });
     // Effets sonores
@@ -78,13 +81,15 @@ export class Player {
       const vStream = this.r.canvas.captureStream(fps);
       this._vStream = vStream;
       const stream = new MediaStream([...vStream.getVideoTracks(), ...audio.stream.getAudioTracks()]);
-      const hd = this.r.canvas.width >= 1000;
-      recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: hd ? 9_000_000 : 5_500_000, audioBitsPerSecond: 160_000 });
+      recorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: 8e6, audioBitsPerSecond: 160_000 });
       recorder.ondataavailable = e => { if (e.data && e.data.size) chunks.push(e.data); };
       recorder.onstop = () => {
         vStream.getTracks().forEach(tr => tr.stop());
-        const type = mime.split(';')[0];
-        this._resolve({ blob: new Blob(chunks, { type }), ext: type.includes('mp4') ? 'mp4' : 'webm' });
+        const type = (recorder.mimeType || mime).split(';')[0];
+        const blob = new Blob(chunks, { type });
+        chunks = []; // morceaux temporaires libérés : il ne reste que la vidéo finale
+        this._vStream = null;
+        this._resolve({ blob, ext: type.includes('mp4') ? 'mp4' : 'webm' });
       };
       recorder.start(250);
       this.recorder = recorder;
@@ -121,11 +126,11 @@ export class Player {
     this.playing = false;
     cancelAnimationFrame(this.raf); clearTimeout(this.raf);
     this.timers.forEach(clearTimeout); this.timers = [];
-    if ('speechSynthesis' in window) speechSynthesis.cancel();
     audio.closeSession();
     if (this.recorder && this.recorder.state !== 'inactive') {
       this.recorder.ondataavailable = null; this.recorder.onstop = null; this.recorder.stop();
       if (this._vStream) this._vStream.getTracks().forEach(tr => tr.stop());
+      this._vStream = null; // enregistrement abandonné : rien n'est conservé
       this._resolve && this._resolve(null);
     }
     this.recorder = null;

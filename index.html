@@ -74,15 +74,25 @@
         </details>
       </details>
 
-      <details class="step">
-        <summary><span class="num">3</span> Voix &amp; son <small id="voiceSummary">Miaou-parlé</small></summary>
-        <label class="field"><span>Doublage</span><select id="voiceEngine"></select></label>
-        <div class="grid2">
-          <label class="field"><span>Voix du chat</span><select id="catVoice"></select></label>
-          <label class="field"><span>Musique</span><select id="music"></select></label>
-        </div>
-        <button id="btnTestVoice" class="btn ghost full">🔊 Tester la voix</button>
+      <details class="step" open>
+        <summary><span class="num">3</span> Voix &amp; son <small id="voiceSummary">Casting auto</small></summary>
+        <label class="field"><span>Moteur de voix</span><select id="voiceEngine"></select></label>
+        <label class="toggle big">
+          <input id="autoVoice" type="checkbox" checked />
+          <span class="sw"></span>
+          <span><b>🎯 Choisir automatiquement la meilleure voix</b><em>Le script est analysé (personnage, thème, émotions, énergie) pour choisir la voix la plus drôle de chaque rôle.</em></span>
+        </label>
+        <div id="castBox" class="cast" aria-live="polite"></div>
+        <div class="role-tabs" id="roleTabs" role="tablist" aria-label="Rôle à doubler"></div>
+        <div id="voiceGrid" class="voice-grid" role="listbox" aria-label="Voix comiques"></div>
+        <label class="toggle">
+          <input id="accentMode" type="checkbox" checked />
+          <span class="sw"></span>
+          <span><b>💥 Accentuer les mots drôles</b><em>Micro-pause de comédien juste avant la chute + mot appuyé.</em></span>
+        </label>
+        <label class="field"><span>Musique</span><select id="music"></select></label>
         <p id="voiceHint" class="hint"></p>
+        <p class="hint small" id="voiceCache"></p>
       </details>
 
       <details class="step">
@@ -181,7 +191,7 @@
         <label class="field"><span>Hashtags</span><div class="copyrow"><input id="pubTags" type="text" /><button class="btn small" data-copy="pubTags">📋</button></div></label>
         <button id="btnCopyAll" class="btn primary full">📋 Copier description + hashtags</button>
         <div class="downloads">
-          <button id="btnDlVideo" class="btn ghost" disabled>⬇️ Vidéo</button>
+          <button id="btnDlVideo" class="btn ghost" disabled>🎬 Exporter la vidéo</button>
           <button id="btnDlSrt" class="btn ghost" disabled>⬇️ Sous-titres .srt</button>
           <button id="btnDlTxt" class="btn ghost" disabled>⬇️ Script .txt</button>
         </div>
